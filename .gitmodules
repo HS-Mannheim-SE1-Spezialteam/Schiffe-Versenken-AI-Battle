@@ -1,0 +1,3 @@
+[submodule "Schiffe-Versenken-API"]
+	path = Schiffe-Versenken-API
+	url = https://github.com/HS-Mannheim-SE1-Spezialteam/Schiffe-Versenken-API.git

@@ -1,9 +1,9 @@
-package se1.schiffeVersenken.matchmaking;
+package se1.schiffeVersenken.botBattle;
 
+import se1.schiffeVersenken.botBattle.util.Grid2;
 import se1.schiffeVersenken.interfaces.GameSettings;
 import se1.schiffeVersenken.interfaces.Tile;
 import se1.schiffeVersenken.interfaces.util.Position;
-import se1.schiffeVersenken.matchmaking.util.Grid2;
 
 class TileWorldImpl implements TileWorld {
 	

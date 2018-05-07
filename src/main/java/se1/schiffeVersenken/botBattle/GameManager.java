@@ -1,4 +1,4 @@
-package se1.schiffeVersenken.matchmaking;
+package se1.schiffeVersenken.botBattle;
 
 import se1.schiffeVersenken.interfaces.GameSettings;
 import se1.schiffeVersenken.interfaces.Player;
@@ -6,14 +6,11 @@ import se1.schiffeVersenken.interfaces.PlayerCreator;
 import se1.schiffeVersenken.interfaces.Ship;
 import se1.schiffeVersenken.interfaces.Tile;
 import se1.schiffeVersenken.interfaces.TurnAction;
-import se1.schiffeVersenken.interfaces.exception.InvalidActionException;
 import se1.schiffeVersenken.interfaces.exception.InvalidShipPlacementException;
 import se1.schiffeVersenken.interfaces.util.Position;
 
 import java.util.Iterator;
 import java.util.stream.Stream;
-
-import static se1.schiffeVersenken.interfaces.GameSettings.SIZE_OF_PLAYFIELD;
 
 public class GameManager {
 	
@@ -47,7 +44,7 @@ public class GameManager {
 		public void takeTurn(Game other) {
 			player.takeTurn(new TurnAction() {
 				@Override
-				public Tile shootTile(Position position) throws InvalidActionException {
+				public Tile shootTile(Position position) {
 					return null;
 				}
 			});

@@ -1,4 +1,4 @@
-package se1.schiffeVersenken.matchmaking;
+package se1.schiffeVersenken.botBattle;
 
 import se1.schiffeVersenken.interfaces.Tile;
 import se1.schiffeVersenken.interfaces.util.Position;
