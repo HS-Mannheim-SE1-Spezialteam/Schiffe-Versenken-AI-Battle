@@ -11,6 +11,5 @@ repositories {
 
 dependencies {
     compile project('Schiffe-Versenken-API')
-//    compile parent
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }

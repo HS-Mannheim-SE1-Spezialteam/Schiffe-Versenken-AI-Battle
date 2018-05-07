@@ -36,9 +36,11 @@ public class GameManager {
 		Player player;
 		ShipWorld ownWorld;
 		
-		public Game(GameSettings settings, PlayerCreator playerCreator) throws InvalidShipPlacementException {
+		public Game(GameSettings settings, PlayerCreator playerCreator) {
 			player = playerCreator.createPlayer(settings);
-			ownWorld = new ShipWorldImpl(player.getShipPlacement());
+			ShipWorld[] ownWorld = new ShipWorld[1];
+			player.placeShips(ships -> ownWorld[0] = new ShipWorldImpl(ships));
+			this.ownWorld = ownWorld[0];
 		}
 		
 		public void takeTurn(Game other) {
@@ -86,7 +88,7 @@ public class GameManager {
 		Stream<Ship> stream = Stream.of(ships);
 		for (int i = 0; i < GameSettings.SIZE_OF_PLAYFIELD; i++) {
 			final int i2 = i;
-			ret[i] = stream.filter(ship -> ship.length - 1 == i2).toArray(Ship[]::new);
+			ret[i] = stream.filter(ship -> ship.getLength() - 1 == i2).toArray(Ship[]::new);
 		}
 		return ret;
 	}
