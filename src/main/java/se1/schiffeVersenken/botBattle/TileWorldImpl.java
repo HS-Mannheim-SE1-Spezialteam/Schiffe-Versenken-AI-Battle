@@ -10,7 +10,7 @@ class TileWorldImpl implements TileWorld {
 	private final Grid2<Tile> tiles;
 	
 	public TileWorldImpl() {
-		this(Tile.UNDISCOVERED);
+		this(null);
 	}
 	
 	public TileWorldImpl(Tile defaultTile) {

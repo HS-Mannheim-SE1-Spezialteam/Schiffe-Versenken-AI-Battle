@@ -24,6 +24,23 @@ class ShipWorldImpl implements ShipWorld {
 				if (tiles.replace(vec, ship) != null)
 					throw new InvalidShipPlacementException("Ship " + ship + " placed on top of ship" + tiles.get(vec) + "!");
 	}
+//	//validate
+//	public ShipWorld validate(Ship[] ships) throws InvalidShipPlacementException {
+//		int[] count = new int[numberOfShips.length];
+//		for (Ship ship : ships)
+//			count[ship.getLength()]++;
+//		for (int i = 0; i < numberOfShips.length; i++)
+//			if (count[i] != numberOfShips[i])
+//				throw new InvalidShipPlacementException("Too many ships of length " + i);
+//
+//		ShipWorldImpl shipWorld = new ShipWorldImpl(ships);
+//		for (Ship ship : ships)
+//			for (Position vec : ship.getEmptySpacesSurrounding(this))
+//				if (shipWorld.getTile(vec) == Tile.SHIP)
+//					throw new InvalidShipPlacementException("The ship " + ship + " is too close to tile " + vec);
+//
+//		return shipWorld;
+//	}
 	
 	//getter
 	@Override
