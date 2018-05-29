@@ -1,95 +1,70 @@
 package se1.schiffeVersenken.botBattle;
 
+import se1.schiffeVersenken.botBattle.world.ShipWorld;
+import se1.schiffeVersenken.botBattle.world.ShipWorldImpl;
 import se1.schiffeVersenken.interfaces.GameSettings;
 import se1.schiffeVersenken.interfaces.Player;
 import se1.schiffeVersenken.interfaces.PlayerCreator;
-import se1.schiffeVersenken.interfaces.Ship;
 import se1.schiffeVersenken.interfaces.Tile;
 import se1.schiffeVersenken.interfaces.TurnAction;
-import se1.schiffeVersenken.interfaces.exception.InvalidShipPlacementException;
+import se1.schiffeVersenken.interfaces.exception.ActionPositionOutOfBounds;
+import se1.schiffeVersenken.interfaces.exception.InvalidActionException;
 import se1.schiffeVersenken.interfaces.util.Position;
-
-import java.util.Iterator;
-import java.util.stream.Stream;
 
 public class GameManager {
 	
-	public PlayerCreator playerCreator1;
-	public PlayerCreator playerCreator2;
+	public boolean running;
+	public final Game g1;
+	public final Game g2;
 	
-	public GameManager(PlayerCreator playerCreator1, PlayerCreator playerCreator2) {
-		this.playerCreator1 = playerCreator1;
-		this.playerCreator2 = playerCreator2;
+	public GameManager(GameSettings settings, PlayerCreator playerCreator1, PlayerCreator playerCreator2) {
+		g1 = new Game(settings, playerCreator1, playerCreator2);
+		g2 = new Game(settings, playerCreator2, playerCreator1);
 	}
 	
-	public void runGame(GameSettings settings) throws InvalidShipPlacementException {
-		Game g1 = new Game(settings, playerCreator1);
-		Game g2 = new Game(settings, playerCreator2);
-		
-		for (Game game : new RepeatingIterable<>(g1, g2)) {
-		
-		}
+	public boolean hasNext() {
+		return !running;
 	}
 	
-	private class Game {
+	public void step() {
+		//TODO: implement
+	}
+	
+	public static class Game {
 		
-		Player player;
-		ShipWorld ownWorld;
+		final Player player;
+		final ShipWorld ownWorld;
 		
-		public Game(GameSettings settings, PlayerCreator playerCreator) {
-			player = playerCreator.createPlayer(settings);
+		public Game(GameSettings settings, PlayerCreator playerCreator, PlayerCreator other) {
+			player = playerCreator.createPlayer(settings, other.getClass());
 			ShipWorld[] ownWorld = new ShipWorld[1];
-			player.placeShips(ships -> ownWorld[0] = new ShipWorldImpl(ships));
+			player.placeShips(ships -> ownWorld[0] = ShipWorldImpl.create(settings, ships));
 			this.ownWorld = ownWorld[0];
 		}
 		
-		public void takeTurn(Game other) {
+		void takeTurn(Game other) {
 			player.takeTurn(new TurnAction() {
 				@Override
-				public Tile shootTile(Position position) {
-					return null;
+				protected Tile shootTile0(Position position) throws InvalidActionException {
+					try {
+						return other.ownWorld.getTile(position);
+					} catch (ArrayIndexOutOfBoundsException e) {
+						throw new ActionPositionOutOfBounds(position);
+					}
 				}
 			});
 		}
 	}
 	
-	static class RepeatingIterable<T> implements Iterable<T> {
-		
-		public T[] array;
-		
-		@SafeVarargs
-		public RepeatingIterable(T... array) {
-			this.array = array;
-		}
-		
-		@Override
-		public Iterator<T> iterator() {
-			return new Iterator<T>() {
-				public int index;
-				
-				@Override
-				public boolean hasNext() {
-					return true;
-				}
-				
-				@Override
-				public T next() {
-					if (index >= array.length)
-						index = 0;
-					return array[index++];
-				}
-			};
-		}
-	}
-	
-	//static
-	public static Ship[][] orderShips(Ship[] ships) {
-		Ship[][] ret = new Ship[GameSettings.SIZE_OF_PLAYFIELD][];
-		Stream<Ship> stream = Stream.of(ships);
-		for (int i = 0; i < GameSettings.SIZE_OF_PLAYFIELD; i++) {
-			final int i2 = i;
-			ret[i] = stream.filter(ship -> ship.getLength() - 1 == i2).toArray(Ship[]::new);
-		}
-		return ret;
-	}
+	//not sure if we need this, but keeping it here if we do
+//	//static
+//	public static Ship[][] orderShips(Ship[] ships) {
+//		Ship[][] ret = new Ship[GameSettings.SIZE_OF_PLAYFIELD][];
+//		Stream<Ship> stream = Stream.of(ships);
+//		for (int i = 0; i < GameSettings.SIZE_OF_PLAYFIELD; i++) {
+//			final int i2 = i;
+//			ret[i] = stream.filter(ship -> ship.getLength() - 1 == i2).toArray(Ship[]::new);
+//		}
+//		return ret;
+//	}
 }

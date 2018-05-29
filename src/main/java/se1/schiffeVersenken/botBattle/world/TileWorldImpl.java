@@ -1,11 +1,11 @@
-package se1.schiffeVersenken.botBattle;
+package se1.schiffeVersenken.botBattle.world;
 
 import se1.schiffeVersenken.botBattle.util.Grid2;
 import se1.schiffeVersenken.interfaces.GameSettings;
 import se1.schiffeVersenken.interfaces.Tile;
 import se1.schiffeVersenken.interfaces.util.Position;
 
-class TileWorldImpl implements TileWorld {
+public class TileWorldImpl implements TileWorld {
 	
 	private final Grid2<Tile> tiles;
 	
