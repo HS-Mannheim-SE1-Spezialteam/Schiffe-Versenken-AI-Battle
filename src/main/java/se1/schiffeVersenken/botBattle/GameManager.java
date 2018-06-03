@@ -7,7 +7,7 @@ import se1.schiffeVersenken.interfaces.Player;
 import se1.schiffeVersenken.interfaces.PlayerCreator;
 import se1.schiffeVersenken.interfaces.Tile;
 import se1.schiffeVersenken.interfaces.TurnAction;
-import se1.schiffeVersenken.interfaces.exception.ActionPositionOutOfBounds;
+import se1.schiffeVersenken.interfaces.exception.ActionPositionOutOfBoundsException;
 import se1.schiffeVersenken.interfaces.exception.InvalidActionException;
 import se1.schiffeVersenken.interfaces.util.Position;
 
@@ -46,10 +46,11 @@ public class GameManager {
 			player.takeTurn(new TurnAction() {
 				@Override
 				protected Tile shootTile0(Position position) throws InvalidActionException {
+					//TODO: this is also not yet done
 					try {
 						return other.ownWorld.getTile(position);
 					} catch (ArrayIndexOutOfBoundsException e) {
-						throw new ActionPositionOutOfBounds(position);
+						throw new ActionPositionOutOfBoundsException(position);
 					}
 				}
 			});
