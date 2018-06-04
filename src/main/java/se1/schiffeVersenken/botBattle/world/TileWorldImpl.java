@@ -26,16 +26,5 @@ public class TileWorldImpl implements TileWorld {
 	public void setTile(Position position, Tile tile) {
 		tiles.set(position, tile);
 	}
-
-//	public SecureTileWorld makeSecureTileWorld() {
-//		return new SecureTileWorld();
-//	}
-//
-//	private class SecureTileWorld implements TileWorld {
-//
-//		@Override
-//		public Tile getTile(Position position) {
-//			return TileWorldImpl.this.getTile(position);
-//		}
-//	}
+	
 }

@@ -10,4 +10,19 @@ public interface GameCallback {
 	void onShot(Game game, Game other, Position position, Tile tile, Ship ship);
 	
 	void onGameOver(Game won, Game loose);
+	
+	static GameCallback emptyCallback() {
+		return new GameCallback() {
+			@Override
+			public void onShot(Game game, Game other, Position position, Tile tile, Ship ship) {
+			
+			}
+			
+			@Override
+			public void onGameOver(Game won, Game loose) {
+			
+			}
+		};
+	}
+	
 }

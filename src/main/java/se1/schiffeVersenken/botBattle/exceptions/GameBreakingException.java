@@ -1,6 +1,6 @@
 package se1.schiffeVersenken.botBattle.exceptions;
 
-public class GameBreakingException extends Exception {
+public class GameBreakingException extends RuntimeException {
 	public GameBreakingException() {
 	}
 	

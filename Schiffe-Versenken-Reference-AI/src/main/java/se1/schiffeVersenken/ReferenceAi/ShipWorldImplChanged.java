@@ -1,6 +1,7 @@
-package se1.schiffeVersenken.botBattle.world;
+package se1.schiffeVersenken.ReferenceAi;
 
 import se1.schiffeVersenken.botBattle.util.Grid2;
+import se1.schiffeVersenken.botBattle.world.ShipWorld;
 import se1.schiffeVersenken.interfaces.GameSettings;
 import se1.schiffeVersenken.interfaces.Ship;
 import se1.schiffeVersenken.interfaces.Tile;
@@ -9,7 +10,10 @@ import se1.schiffeVersenken.interfaces.exception.shipPlacement.OverlappingShipsE
 import se1.schiffeVersenken.interfaces.exception.shipPlacement.TouchingShipsException;
 import se1.schiffeVersenken.interfaces.util.Position;
 
-public class ShipWorldImpl implements ShipWorld {
+/**
+ * NOTE: this is copied, but modified to work in other circumstances!!!
+ */
+public class ShipWorldImplChanged implements ShipWorld {
 	
 	private final Ship[] ships;
 	/**
@@ -18,7 +22,7 @@ public class ShipWorldImpl implements ShipWorld {
 	private final Grid2<Ship> tiles;
 	
 	//create
-	private ShipWorldImpl(Ship[] ships) throws InvalidShipPlacementException {
+	private ShipWorldImplChanged(Ship[] ships) throws InvalidShipPlacementException {
 		this.ships = ships;
 		tiles = new Grid2<>(GameSettings.SIZE_OF_PLAYFIELD_VECTOR, (Ship) null);
 		
@@ -37,10 +41,10 @@ public class ShipWorldImpl implements ShipWorld {
 		for (Ship ship : ships)
 			count[ship.getLength() - 1]++;
 		for (int i = 0; i < numberOfShips.length; i++)
-			if (count[i] != numberOfShips[i])
-				throw new InvalidShipPlacementException("Mismatching count of ships length " + i + ": " + count[i] + " != " + numberOfShips[i]);
+			if (count[i] > numberOfShips[i])
+				throw new InvalidShipPlacementException("Too many ships of length " + i);
 		
-		ShipWorldImpl shipWorld = new ShipWorldImpl(ships);
+		ShipWorldImplChanged shipWorld = new ShipWorldImplChanged(ships);
 		for (Ship ship : ships)
 			for (Position vec : ship.getEmptySpacesSurrounding(settings.getShipBorderConditions()))
 				if (shipWorld.getTile(vec) == Tile.SHIP)

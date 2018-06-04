@@ -1,8 +1,8 @@
 package se1.schiffeVersenken.botBattle.util;
 
-import se1.schiffeVersenken.interfaces.util.Position;
-
 import java.util.Arrays;
+
+import se1.schiffeVersenken.interfaces.util.Position;
 
 import static se1.schiffeVersenken.interfaces.util.Position.NULL_VECTOR;
 
@@ -29,7 +29,7 @@ public class Grid2<T> {
 	//internal
 	private int getIndex(Position position) throws ArrayIndexOutOfBoundsException {
 		if (!position.boundsCheck(NULL_VECTOR, size))
-			throw new ArrayIndexOutOfBoundsException(NULL_VECTOR + " < " + position + " < " + size);
+			throw new ArrayIndexOutOfBoundsException(NULL_VECTOR + " <= " + position + " < " + size);
 		return position.y * size.x + position.x;
 	}
 	

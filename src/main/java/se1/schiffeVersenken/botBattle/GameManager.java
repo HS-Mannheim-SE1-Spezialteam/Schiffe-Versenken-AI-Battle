@@ -1,7 +1,12 @@
 package se1.schiffeVersenken.botBattle;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import se1.schiffeVersenken.botBattle.exceptions.NoActionTakenException;
 import se1.schiffeVersenken.botBattle.exceptions.NoShipsSetException;
 import se1.schiffeVersenken.botBattle.util.Grid2;
 import se1.schiffeVersenken.botBattle.world.ShipWorld;
@@ -12,8 +17,9 @@ import se1.schiffeVersenken.interfaces.PlayerCreator;
 import se1.schiffeVersenken.interfaces.Ship;
 import se1.schiffeVersenken.interfaces.Tile;
 import se1.schiffeVersenken.interfaces.TurnAction;
-import se1.schiffeVersenken.interfaces.exception.ActionPositionOutOfBoundsException;
-import se1.schiffeVersenken.interfaces.exception.InvalidActionException;
+import se1.schiffeVersenken.interfaces.exception.action.ActionPositionOutOfBoundsException;
+import se1.schiffeVersenken.interfaces.exception.action.AlreadyShotPositionException;
+import se1.schiffeVersenken.interfaces.exception.action.InvalidActionException;
 import se1.schiffeVersenken.interfaces.util.Position;
 
 public class GameManager implements Runnable {
@@ -22,7 +28,7 @@ public class GameManager implements Runnable {
 	public final Game g2;
 	public GameCallback callback;
 	
-	public GameManager(GameSettings settings, PlayerCreator playerCreator1, PlayerCreator playerCreator2, GameCallback callback) throws NoShipsSetException {
+	public GameManager(GameSettings settings, PlayerCreator playerCreator1, PlayerCreator playerCreator2, GameCallback callback) {
 		this.g1 = new Game(settings, playerCreator1, playerCreator2);
 		this.g2 = new Game(settings, playerCreator2, playerCreator1);
 		this.callback = callback;
@@ -58,7 +64,7 @@ public class GameManager implements Runnable {
 		public final ShipWorld ownWorld;
 		public final Grid2<Boolean> hitTiles = new Grid2<>(GameSettings.SIZE_OF_PLAYFIELD_VECTOR, Boolean.FALSE);
 		
-		public Game(GameSettings settings, PlayerCreator playerCreator, PlayerCreator other) throws NoShipsSetException {
+		public Game(GameSettings settings, PlayerCreator playerCreator, PlayerCreator other) {
 			this.player = playerCreator.createPlayer(settings, other.getClass());
 			
 			ShipWorld[] ownWorld = new ShipWorld[1];
@@ -69,19 +75,21 @@ public class GameManager implements Runnable {
 		}
 		
 		void takeTurn(Game other) {
-			player.takeTurn(new TurnAction() {
+			TurnAction turnAction = new TurnAction() {
 				@Override
 				protected Tile shootTile0(Position position) throws InvalidActionException {
-					Ship ship;
 					try {
-						ship = other.ownWorld.getShip(position);
-						hitTiles.set(position, Boolean.TRUE);
+						if (hitTiles.get(position))
+							throw new AlreadyShotPositionException(position);
 					} catch (ArrayIndexOutOfBoundsException e) {
 						throw new ActionPositionOutOfBoundsException(position);
 					}
 					
 					try {
+						hitTiles.set(position, Boolean.TRUE);
+						
 						//changes start here
+						Ship ship = other.ownWorld.getShip(position);
 						Tile tile = handle(ship);
 						callback.onShot(Game.this, other, position, tile, ship);
 						other.player.onEnemyShot(position, tile, ship);
@@ -100,23 +108,50 @@ public class GameManager implements Runnable {
 						return Tile.SHIP_KILL;
 					return Tile.SHIP;
 				}
-			});
+			};
+			
+			player.takeTurn(turnAction);
+			if (!turnAction.isTaken())
+				throw new NoActionTakenException(player.getClass().getSimpleName());
 		}
 		
 		public boolean hasLost() {
 			return Stream.of(ownWorld.getShips()).allMatch(Ship::isSunk);
 		}
+		
+		public String toString(boolean allowColor) {
+			return toString(allowColor, null);
+		}
+		
+		public String toString(boolean allowColor, Position highlightPos) {
+			AtomicInteger charCounter = new AtomicInteger();
+			Map<Ship, Integer> shipToCharacter = Arrays.stream(ownWorld.getShips()).collect(Collectors.toMap(o -> o, o -> 'A' + charCounter.getAndIncrement()));
+			
+			StringBuilder b = new StringBuilder();
+			for (int y = 0; y < GameSettings.SIZE_OF_PLAYFIELD; y++) {
+				for (int x = 0; x < GameSettings.SIZE_OF_PLAYFIELD; x++) {
+					Position pos = new Position(x, y);
+					Ship ship = ownWorld.getShip(pos);
+					boolean hit = hitTiles.get(pos);
+					
+					if (allowColor)
+						b.append(pos.equals(highlightPos) ? "\u001b[31m" : hit ? "\u001b[33m" : "\u001b[36m");
+					if (ship == null)
+						b.append(hit ? "*" : " ");
+					else
+						b.append((char) shipToCharacter.get(ship).intValue());
+				}
+				if (allowColor)
+					b.append("\u001b[0m");
+				b.append('\n');
+			}
+			return b.toString();
+		}
+		
+		@Override
+		public String toString() {
+			return toString(false);
+		}
 	}
 	
-	//not sure if we need this, but keeping it here if we do
-//	//static
-//	public static Ship[][] orderShips(Ship[] ships) {
-//		Ship[][] ret = new Ship[GameSettings.SIZE_OF_PLAYFIELD][];
-//		Stream<Ship> stream = Stream.of(ships);
-//		for (int i = 0; i < GameSettings.SIZE_OF_PLAYFIELD; i++) {
-//			final int i2 = i;
-//			ret[i] = stream.filter(ship -> ship.getLength() - 1 == i2).toArray(Ship[]::new);
-//		}
-//		return ret;
-//	}
 }
