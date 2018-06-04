@@ -22,6 +22,7 @@ public class TileWorldImpl implements TileWorld {
 		return tiles.get(position);
 	}
 	
+	@Override
 	public void setTile(Position position, Tile tile) {
 		tiles.set(position, tile);
 	}

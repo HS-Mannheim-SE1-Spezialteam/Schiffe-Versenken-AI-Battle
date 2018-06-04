@@ -17,6 +17,7 @@ public class ShipWorldImpl implements ShipWorld {
 	 */
 	private final Grid2<Ship> tiles;
 	
+	//create
 	private ShipWorldImpl(Ship[] ships) throws InvalidShipPlacementException {
 		this.ships = ships;
 		tiles = new Grid2<>(GameSettings.SIZE_OF_PLAYFIELD_VECTOR, (Ship) null);
@@ -29,8 +30,7 @@ public class ShipWorldImpl implements ShipWorld {
 			}
 		}
 	}
-	
-	//validate
+
 	public static ShipWorld create(GameSettings settings, Ship[] ships) throws InvalidShipPlacementException {
 		int[] numberOfShips = settings.getNumberOfShips();
 		int[] count = new int[numberOfShips.length];
@@ -49,16 +49,10 @@ public class ShipWorldImpl implements ShipWorld {
 		return shipWorld;
 	}
 	
-	//getter
+	//methods
 	@Override
 	public Ship[] getShips() {
 		return ships;
-	}
-	
-	//get at position
-	@Override
-	public Object getObject(Position position) {
-		return tiles.get(position);
 	}
 	
 	@Override
