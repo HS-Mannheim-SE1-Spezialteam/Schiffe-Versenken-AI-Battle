@@ -43,8 +43,9 @@ public class ShipWorldImpl implements ShipWorld {
 		ShipWorldImpl shipWorld = new ShipWorldImpl(ships);
 		for (Ship ship : ships)
 			for (Position vec : ship.getEmptySpacesSurrounding(settings.getShipBorderConditions()))
-				if (shipWorld.getTile(vec) == Tile.SHIP)
-					throw new TouchingShipsException(vec, ship, shipWorld.getShip(vec));
+				if (vec.boundsCheck(Position.NULL_VECTOR, GameSettings.SIZE_OF_PLAYFIELD_VECTOR))
+					if (shipWorld.getTile(vec) == Tile.SHIP)
+						throw new TouchingShipsException(vec, ship, shipWorld.getShip(vec));
 		
 		return shipWorld;
 	}

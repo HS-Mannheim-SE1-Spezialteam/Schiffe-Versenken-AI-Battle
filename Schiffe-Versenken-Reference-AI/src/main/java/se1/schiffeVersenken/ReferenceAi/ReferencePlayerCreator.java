@@ -30,7 +30,8 @@ public class ReferencePlayerCreator implements PlayerCreator {
 	
 	private final AtomicInteger NAME_COUNTER = new AtomicInteger();
 	private final Supplier<Random> RANDOM_CREATOR;
-	private boolean allowTalking = true;
+	private boolean printShipConfig = true;
+	private boolean allowTalking = false;
 	
 	public ReferencePlayerCreator() {
 		this(Random::new);
@@ -42,6 +43,11 @@ public class ReferencePlayerCreator implements PlayerCreator {
 	
 	public ReferencePlayerCreator(Supplier<Random> RANDOM_CREATOR) {
 		this.RANDOM_CREATOR = RANDOM_CREATOR;
+	}
+	
+	public ReferencePlayerCreator setPrintShipConfig(boolean printShipConfig) {
+		this.printShipConfig = printShipConfig;
+		return this;
 	}
 	
 	public ReferencePlayerCreator setAllowTalking(boolean allowTalking) {
@@ -76,7 +82,7 @@ public class ReferencePlayerCreator implements PlayerCreator {
 			int[] numberOfShips = settings.getNumberOfShips();
 			int totalShipCount = IntStream.of(numberOfShips).sum();
 			
-			if (allowTalking)
+			if (printShipConfig)
 				println("Placing ships...");
 			labelCompleteRetry:
 			for (int completeTry = 0; true; completeTry++) {
@@ -112,7 +118,7 @@ public class ReferencePlayerCreator implements PlayerCreator {
 				break;
 			}
 			
-			if (allowTalking) {
+			if (printShipConfig) {
 				println("All ships:");
 				Stream.of(ships).forEach(s -> println(Objects.toString(s)));
 				println();

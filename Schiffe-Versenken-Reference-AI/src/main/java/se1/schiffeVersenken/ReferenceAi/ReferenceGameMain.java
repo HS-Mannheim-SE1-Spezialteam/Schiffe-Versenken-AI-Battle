@@ -18,8 +18,8 @@ public class ReferenceGameMain {
 				.setNumOfShips(5, 1)
 				.createGameSettings();
 		
-		ReferencePlayerCreator referencePlayerCreator = new ReferencePlayerCreator().setAllowTalking(true);
-		new GameManager(gameSettings, referencePlayerCreator, referencePlayerCreator, new ConsoleOutputCallback().setDelay(100)).run();
+		ReferencePlayerCreator referencePlayerCreator = new ReferencePlayerCreator().setPrintShipConfig(true).setAllowTalking(false);
+		new GameManager(gameSettings, referencePlayerCreator, referencePlayerCreator, new ConsoleOutputCallback().setDelay(1000)).run();
 	}
 	
 }
