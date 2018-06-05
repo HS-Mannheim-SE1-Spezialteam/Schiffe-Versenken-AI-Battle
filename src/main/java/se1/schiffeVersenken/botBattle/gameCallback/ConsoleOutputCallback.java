@@ -1,8 +1,8 @@
-package se1.schiffeVersenken.botBattle;
+package se1.schiffeVersenken.botBattle.gameCallback;
 
 import java.io.PrintStream;
 
-import se1.schiffeVersenken.botBattle.GameManager.Game;
+import se1.schiffeVersenken.botBattle.Game;
 import se1.schiffeVersenken.interfaces.Ship;
 import se1.schiffeVersenken.interfaces.Tile;
 import se1.schiffeVersenken.interfaces.util.Position;
@@ -13,10 +13,7 @@ public class ConsoleOutputCallback implements GameCallback {
 	public int delay = 500;
 	public boolean colored = true;
 	
-	private Game firstPlayer;
-	private Game secondPlayer;
-	
-	private Position firstPos;
+	private Game game;
 	
 	public ConsoleOutputCallback() {
 		this(System.out);
@@ -37,24 +34,19 @@ public class ConsoleOutputCallback implements GameCallback {
 	}
 	
 	@Override
-	public void onShot(Game game, Game other, Position position, Tile tile, Ship ship) {
-		if (firstPlayer == null) {
-			firstPlayer = game;
-			secondPlayer = other;
-		}
+	public void init(Game game) {
+		this.game = game;
+	}
+	
+	@Override
+	public void onShot(int id, boolean isSide1, Position position, Tile tile, Ship ship) {
+		fancyStatusPrint(isSide1 ? position : null, !isSide1 ? position : null);
 		
-		if (firstPos == null) {
-			firstPos = position;
-		} else {
-			fancyStatusPrint(firstPos, position);
-			firstPos = null;
+		if (delay > 0) {
+			try {
+				Thread.sleep(delay);
+			} catch (InterruptedException ignore) {
 			
-			if (delay > 0) {
-				try {
-					Thread.sleep(delay);
-				} catch (InterruptedException ignore) {
-				
-				}
 			}
 		}
 	}
@@ -67,8 +59,8 @@ public class ConsoleOutputCallback implements GameCallback {
 		out.println("+----------------------------+");
 		out.println("|   First  |      |  Second  |");
 		out.println("+----------+------+----------+");
-		String[] s1 = firstPlayer.toString(colored, firstHighlight).split("\n");
-		String[] s2 = secondPlayer.toString(colored, secondHighlight).split("\n");
+		String[] s1 = game.side1.toString(colored, firstHighlight).split("\n");
+		String[] s2 = game.side2.toString(colored, secondHighlight).split("\n");
 		for (int i = 0; i < Math.max(s1.length, s2.length); i++)
 			out.println("|" + s1[i] + "|      |" + s2[i] + "|");
 		out.println("+----------+------+----------+");
@@ -76,12 +68,9 @@ public class ConsoleOutputCallback implements GameCallback {
 	}
 	
 	@Override
-	public void onGameOver(Game won, Game loose) {
-		if (firstPos != null)
-			fancyStatusPrint(firstPos, null);
-		
-		out.println("\u001b[32m" + "!!!Player " + won.player.getClass().getSimpleName() + " has won!!!");
-		out.println("The looser is " + loose.player.getClass().getSimpleName() + "\u001b[0m");
+	public void onGameOver(boolean isSide1) {
+		out.println("\u001b[32m" + "!!!Player " + (isSide1 ? game.side1 : game.side2).playerInfo.name + " has won!!!");
+		out.println("The looser is " + (!isSide1 ? game.side1 : game.side2).playerInfo.name + "\u001b[0m");
 		out.println();
 		out.println("Final status: ");
 		fancyStatusPrint();

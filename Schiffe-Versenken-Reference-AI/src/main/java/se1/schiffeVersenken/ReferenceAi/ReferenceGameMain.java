@@ -1,8 +1,9 @@
 package se1.schiffeVersenken.ReferenceAi;
 
-import se1.schiffeVersenken.botBattle.ConsoleOutputCallback;
-import se1.schiffeVersenken.botBattle.GameManager;
+import se1.schiffeVersenken.botBattle.Game;
+import se1.schiffeVersenken.botBattle.PlayerInfo;
 import se1.schiffeVersenken.botBattle.exceptions.NoShipsSetException;
+import se1.schiffeVersenken.botBattle.gameCallback.ConsoleOutputCallback;
 import se1.schiffeVersenken.interfaces.GameSettings;
 import se1.schiffeVersenken.interfaces.GameSettingsBuilder;
 
@@ -18,8 +19,8 @@ public class ReferenceGameMain {
 				.setNumOfShips(5, 1)
 				.createGameSettings();
 		
-		ReferencePlayerCreator referencePlayerCreator = new ReferencePlayerCreator().setPrintShipConfig(true).setAllowTalking(false);
-		new GameManager(gameSettings, referencePlayerCreator, referencePlayerCreator, new ConsoleOutputCallback().setDelay(1000)).run();
+		PlayerInfo playerInfo = new PlayerInfo(new ReferencePlayerCreator());
+		new Game(gameSettings, playerInfo, playerInfo, new ConsoleOutputCallback().setDelay(1000)).run();
 	}
 	
 }

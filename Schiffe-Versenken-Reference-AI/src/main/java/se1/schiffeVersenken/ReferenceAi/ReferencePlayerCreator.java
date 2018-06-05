@@ -30,7 +30,7 @@ public class ReferencePlayerCreator implements PlayerCreator {
 	
 	private final AtomicInteger NAME_COUNTER = new AtomicInteger();
 	private final Supplier<Random> RANDOM_CREATOR;
-	private boolean printShipConfig = true;
+	private boolean printShipConfig = false;
 	private boolean allowTalking = false;
 	
 	public ReferencePlayerCreator() {
@@ -60,6 +60,7 @@ public class ReferencePlayerCreator implements PlayerCreator {
 		return new ReferencePlayer(settings);
 	}
 	
+	@PlayableAI("Reference Player")
 	private class ReferencePlayer implements Player {
 		
 		private final int id;
