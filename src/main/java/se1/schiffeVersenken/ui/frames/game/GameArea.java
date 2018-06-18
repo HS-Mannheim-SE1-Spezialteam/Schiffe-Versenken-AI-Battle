@@ -1,6 +1,7 @@
 package se1.schiffeVersenken.ui.frames.game;
 
 import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 import se1.schiffeVersenken.botBattle.Game;
 import se1.schiffeVersenken.botBattle.gameCallback.GameCallback;
@@ -18,7 +19,7 @@ public class GameArea extends JFrame implements GameCallback{
 	
 	public GameArea(){
 		this.setTitle("Schiffe Versenken - Playground");
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setContentPane(gamePanel);
 		this.pack();
 		this.setLayout(null);
