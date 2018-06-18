@@ -82,7 +82,7 @@ public class Game implements Runnable {
 			this.player = playerCreator.creator.createPlayer(settings, other.creator.getClass());
 			
 			ShipWorld[] ownWorld = new ShipWorld[1];
-			player.placeShips(ships -> ownWorld[0] = ShipWorldImpl.create(settings, ships));
+			player.placeShips(ships -> ownWorld[0] = ShipWorldImpl.create(settings, Arrays.copyOf(ships, ships.length)));
 			if (ownWorld[0] == null)
 				throw new NoShipsSetException(playerInfo.name);
 			this.ownWorld = ownWorld[0];
