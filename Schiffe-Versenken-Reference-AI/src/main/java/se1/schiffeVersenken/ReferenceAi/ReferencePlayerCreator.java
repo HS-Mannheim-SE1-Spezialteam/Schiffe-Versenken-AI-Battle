@@ -25,8 +25,8 @@ import se1.schiffeVersenken.interfaces.util.Position;
 @PlayableAI("Reference Player")
 public class ReferencePlayerCreator implements PlayerCreator {
 	
-	private static final int TRIES_COMPLETE_REDO = 10;
-	private static final int TRIES_REPLACE_SHIP = 20;
+	private static final int TRIES_COMPLETE_REDO = 100000;
+	private static final int TRIES_REPLACE_SHIP = 200;
 	
 	private final AtomicInteger NAME_COUNTER = new AtomicInteger();
 	private final Supplier<Random> RANDOM_CREATOR;

@@ -7,6 +7,7 @@ import se1.schiffeVersenken.botBattle.gameCallback.ConsoleOutputCallback;
 import se1.schiffeVersenken.interfaces.GameSettings;
 import se1.schiffeVersenken.interfaces.GameSettingsBuilder;
 
+@SuppressWarnings("UnnecessaryLocalVariable")
 public class ReferenceGameMain {
 	
 	public static void main(String[] args) throws NoShipsSetException {
@@ -19,8 +20,9 @@ public class ReferenceGameMain {
 				.setNumOfShips(5, 1)
 				.createGameSettings();
 		
-		PlayerInfo playerInfo = new PlayerInfo(new ReferencePlayerCreator());
-		new Game(gameSettings, playerInfo, playerInfo, new ConsoleOutputCallback().setDelay(1000)).run();
+		PlayerInfo player1 = new PlayerInfo(new ReferencePlayerCreator());
+		PlayerInfo player2 = player1;
+		new Game(gameSettings, player1, player2, new ConsoleOutputCallback().setDelay(1000)).run();
 	}
 	
 }
