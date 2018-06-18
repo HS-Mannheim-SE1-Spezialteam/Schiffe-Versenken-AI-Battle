@@ -45,15 +45,19 @@ public class GamePanel extends JPanel{
 		if(this.background != null){
 			gfx.drawImage(this.background, 0, 0, this);
 		}
-
+		
 		if(ships != null)
-		for(ObjectRenderer ship : this.ships) {
-			ship.simpleDraw(gfx);
+		synchronized (this.ships) {
+			for(ObjectRenderer ship : this.ships) {
+				ship.simpleDraw(gfx);
+			}
 		}
 		
-		if(shots != null)
-		for(ObjectRenderer ship : this.shots) {
-			ship.simpleDraw(gfx);
+		if(shots != null)		
+		synchronized (this.shots) {
+			for(ObjectRenderer ship : this.shots) {
+				ship.simpleDraw(gfx);
+			}
 		}
 	}
 }
