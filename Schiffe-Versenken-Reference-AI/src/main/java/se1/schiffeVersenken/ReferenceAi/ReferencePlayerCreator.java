@@ -1,13 +1,5 @@
 package se1.schiffeVersenken.ReferenceAi;
 
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Supplier;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
 import se1.schiffeVersenken.interfaces.GameSettings;
 import se1.schiffeVersenken.interfaces.PlayableAI;
 import se1.schiffeVersenken.interfaces.Player;
@@ -21,6 +13,14 @@ import se1.schiffeVersenken.interfaces.exception.action.InvalidActionException;
 import se1.schiffeVersenken.interfaces.exception.shipPlacement.InvalidShipPlacementException;
 import se1.schiffeVersenken.interfaces.util.Direction;
 import se1.schiffeVersenken.interfaces.util.Position;
+
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Supplier;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @PlayableAI("Reference Player")
 public class ReferencePlayerCreator implements PlayerCreator {
@@ -102,8 +102,8 @@ public class ReferencePlayerCreator implements PlayerCreator {
 							
 							Direction direction = r.nextBoolean() ? Direction.HORIZONTAL : Direction.VERTICAL;
 							Position position = new Position(
-									r.nextInt(GameSettings.SIZE_OF_PLAYFIELD - ((direction == Direction.VERTICAL) ? shipLength : 1)),
-									r.nextInt(GameSettings.SIZE_OF_PLAYFIELD - ((direction == Direction.HORIZONTAL) ? shipLength : 1)));
+									r.nextInt(GameSettings.SIZE_OF_PLAYFIELD - ((direction == Direction.HORIZONTAL) ? shipLength : 1)),
+									r.nextInt(GameSettings.SIZE_OF_PLAYFIELD - ((direction == Direction.VERTICAL) ? shipLength : 1)));
 							ships[shipArrayIndex] = new Ship(position, direction, shipLength);
 							
 							try {
