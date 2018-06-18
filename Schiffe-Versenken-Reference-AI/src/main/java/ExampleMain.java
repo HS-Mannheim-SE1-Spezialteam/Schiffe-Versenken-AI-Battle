@@ -1,5 +1,4 @@
-package se1.schiffeVersenken.ReferenceAi;
-
+import se1.schiffeVersenken.ReferenceAi.ReferencePlayerCreator;
 import se1.schiffeVersenken.botBattle.Game;
 import se1.schiffeVersenken.botBattle.PlayerInfo;
 import se1.schiffeVersenken.botBattle.exceptions.NoShipsSetException;
@@ -8,7 +7,7 @@ import se1.schiffeVersenken.interfaces.GameSettings;
 import se1.schiffeVersenken.interfaces.GameSettingsBuilder;
 
 @SuppressWarnings("UnnecessaryLocalVariable")
-public class ReferenceGameMain {
+public class ExampleMain {
 	
 	public static void main(String[] args) throws NoShipsSetException {
 		GameSettings gameSettings = new GameSettingsBuilder()
@@ -20,9 +19,17 @@ public class ReferenceGameMain {
 				.setNumOfShips(5, 1)
 				.createGameSettings();
 		
+		//BotBattle requires a PlayerInfo Object to work with AIs. Create them with an Instance of the PlayerCreator or the PlayerCreator Class
+//		PlayerInfo player1 = new PlayerInfo(ReferencePlayerCreator.class);
 		PlayerInfo player1 = new PlayerInfo(new ReferencePlayerCreator());
 		PlayerInfo player2 = player1;
-		new Game(gameSettings, player1, player2, new ConsoleOutputCallback().setDelay(1000)).run();
+		
+		//Define the OutputCallback here: Currently Console Output.
+		//Console Output allows slowing down your battle with setDelay(time_in_millis)
+		ConsoleOutputCallback callback = new ConsoleOutputCallback().setDelay(1000);
+		
+		//create the Game and run it
+		new Game(gameSettings, player1, player2, callback).run();
 	}
 	
 }
