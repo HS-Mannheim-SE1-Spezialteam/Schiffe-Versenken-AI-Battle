@@ -51,7 +51,7 @@ public class GameArea extends JFrame implements GameCallback{
 	@Override
 	public void onShot(int id, boolean isSide1, Position position, Tile tile, Ship ship) {
 		synchronized (this.gamePanel.shots) {
-			this.gamePanel.shots.add(new BombRenderer(position.x * 48 + (isSide1 ? 48 : 672), position.y * 48 + 48, tile == Tile.SHIP || tile == Tile.SHIP_KILL));
+			this.gamePanel.shots.add(new BombRenderer(position.x * 48 + (!isSide1 ? 48 : 672), position.y * 48 + 48, tile == Tile.SHIP || tile == Tile.SHIP_KILL));
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
