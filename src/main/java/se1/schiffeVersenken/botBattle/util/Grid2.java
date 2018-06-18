@@ -1,8 +1,10 @@
 package se1.schiffeVersenken.botBattle.util;
 
+import java.util.Arrays;
+
 import se1.schiffeVersenken.interfaces.util.Position;
 
-import java.util.Arrays;
+import static se1.schiffeVersenken.interfaces.util.Position.NULL_VECTOR;
 
 public class Grid2<T> {
 	
@@ -25,22 +27,22 @@ public class Grid2<T> {
 	}
 	
 	//internal
-	private int getIndex(Position position) {
-		if (!position.boundsCheck(Position.NULL_VECTOR, size))
-			throw new IllegalArgumentException("Out of Bounds! " + position);
+	private int getIndex(Position position) throws ArrayIndexOutOfBoundsException {
+		if (!position.boundsCheck(NULL_VECTOR, size))
+			throw new ArrayIndexOutOfBoundsException(NULL_VECTOR + " <= " + position + " < " + size);
 		return position.y * size.x + position.x;
 	}
 	
 	//access
-	public T get(Position position) {
+	public T get(Position position) throws ArrayIndexOutOfBoundsException {
 		return array[getIndex(position)];
 	}
 	
-	public void set(Position position, T obj) {
+	public void set(Position position, T obj) throws ArrayIndexOutOfBoundsException {
 		array[getIndex(position)] = obj;
 	}
 	
-	public void set(Position[] position, T obj) {
+	public void set(Position[] position, T obj) throws ArrayIndexOutOfBoundsException {
 		int[] index = new int[position.length];
 		for (int i = 0; i < position.length; i++)
 			index[i] = getIndex(position[i]);
@@ -48,7 +50,7 @@ public class Grid2<T> {
 			array[i] = obj;
 	}
 	
-	public T replace(Position position, T obj) {
+	public T replace(Position position, T obj) throws ArrayIndexOutOfBoundsException {
 		int index = getIndex(position);
 		T ret = array[index];
 		array[index] = obj;
