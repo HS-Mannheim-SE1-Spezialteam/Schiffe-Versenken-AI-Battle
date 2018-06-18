@@ -70,7 +70,7 @@ public class SetupPanel extends JPanel{
 				
 				if(rbtnTouch.isSelected())
 					UIControll.initGame(ShipBorderConditions.TOUCHING_ALLOWED, ships, false);
-				else if(rbtnTouch.isSelected())
+				else if (rbtnNoDirectTouch.isSelected())
 					UIControll.initGame(ShipBorderConditions.NO_DIRECT_TOUCH, ships, false);
 				else if(rbtnNoTouch.isSelected())
 					UIControll.initGame(ShipBorderConditions.NO_DIRECT_AND_DIAGONAL_TOUCH, ships, false);
