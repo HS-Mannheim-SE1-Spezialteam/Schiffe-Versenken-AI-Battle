@@ -1,11 +1,11 @@
 package se1.schiffeVersenken.botBattle.gameCallback;
 
-import java.io.PrintStream;
-
 import se1.schiffeVersenken.botBattle.Game;
 import se1.schiffeVersenken.interfaces.Ship;
 import se1.schiffeVersenken.interfaces.Tile;
 import se1.schiffeVersenken.interfaces.util.Position;
+
+import java.io.PrintStream;
 
 public class ConsoleOutputCallback implements GameCallback {
 	
@@ -40,7 +40,7 @@ public class ConsoleOutputCallback implements GameCallback {
 	
 	@Override
 	public void onShot(int id, boolean isSide1, Position position, Tile tile, Ship ship) {
-		fancyStatusPrint(isSide1 ? position : null, !isSide1 ? position : null);
+		fancyStatusPrint(!isSide1 ? position : null, isSide1 ? position : null);
 		
 		if (delay > 0) {
 			try {
@@ -59,8 +59,8 @@ public class ConsoleOutputCallback implements GameCallback {
 		out.println("+----------------------------+");
 		out.println("|   First  |      |  Second  |");
 		out.println("+----------+------+----------+");
-		String[] s1 = game.side1.toString(colored, firstHighlight).split("\n");
-		String[] s2 = game.side2.toString(colored, secondHighlight).split("\n");
+		String[] s1 = game.side1.toString(colored, game.side2.hitTiles, firstHighlight).split("\n");
+		String[] s2 = game.side2.toString(colored, game.side1.hitTiles, secondHighlight).split("\n");
 		for (int i = 0; i < Math.max(s1.length, s2.length); i++)
 			out.println("|" + s1[i] + "|      |" + s2[i] + "|");
 		out.println("+----------+------+----------+");

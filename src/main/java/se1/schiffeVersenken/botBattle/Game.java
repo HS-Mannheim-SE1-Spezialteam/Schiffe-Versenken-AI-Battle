@@ -1,11 +1,5 @@
 package se1.schiffeVersenken.botBattle;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import se1.schiffeVersenken.botBattle.exceptions.GameBreakingException;
 import se1.schiffeVersenken.botBattle.exceptions.NoActionTakenException;
 import se1.schiffeVersenken.botBattle.exceptions.NoShipsSetException;
@@ -22,6 +16,12 @@ import se1.schiffeVersenken.interfaces.exception.action.ActionPositionOutOfBound
 import se1.schiffeVersenken.interfaces.exception.action.AlreadyShotPositionException;
 import se1.schiffeVersenken.interfaces.exception.action.InvalidActionException;
 import se1.schiffeVersenken.interfaces.util.Position;
+
+import java.util.Arrays;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Game implements Runnable {
 	
@@ -90,10 +90,10 @@ public class Game implements Runnable {
 		
 		//toString
 		public String toString(boolean allowColor) {
-			return toString(allowColor, null);
+			return toString(allowColor, null, null);
 		}
 		
-		public String toString(boolean allowColor, Position highlightPos) {
+		public String toString(boolean allowColor, Grid2<Boolean> hitTiles, Position highlightPos) {
 			AtomicInteger charCounter = new AtomicInteger();
 			Map<Ship, Integer> shipToCharacter = Arrays.stream(ownWorld.getShips())
 					.collect(Collectors.toMap(o -> o, o -> 'A' + charCounter.getAndIncrement()));
@@ -103,7 +103,7 @@ public class Game implements Runnable {
 				for (int x = 0; x < GameSettings.SIZE_OF_PLAYFIELD; x++) {
 					Position pos = new Position(x, y);
 					Ship ship = ownWorld.getShip(pos);
-					boolean hit = hitTiles.get(pos);
+					boolean hit = hitTiles == null ? false : hitTiles.get(pos);
 					
 					if (allowColor)
 						b.append(pos.equals(highlightPos) ? "\u001b[31m" : (hit ? "\u001b[33m" : "\u001b[36m"));
