@@ -16,7 +16,7 @@ public class ShipRenderer extends ObjectRenderer{
 	}
 
 	@Override
-	public void simpleDraw(Graphics gfx) {
+	public void simpleDraw(Graphics gfx, float sizeMultiplier) {
 		if(size == 1) {
 			
 		}else {
@@ -26,10 +26,10 @@ public class ShipRenderer extends ObjectRenderer{
 				int v = i == 0 ? 0 : i + 1 == size ? 96 : 48;
 				
 				gfx.drawImage(objects,
-						this.x + (dir == Direction.HORIZONTAL ? 48 * i : 0),
-						this.y + (dir == Direction.VERTICAL ? 48 * i : 0),
-						this.x + (dir == Direction.HORIZONTAL ? 48 + 48 * i : 48),
-						this.y + (dir == Direction.VERTICAL ? 48 + 48 * i : 48),
+						(int) (sizeMultiplier * (this.x + (dir == Direction.HORIZONTAL ? 48 * i : 0))),
+						(int) (sizeMultiplier * (this.y + (dir == Direction.VERTICAL ? 48 * i : 0))),
+						(int) (sizeMultiplier * (this.x + (dir == Direction.HORIZONTAL ? 48 + 48 * i : 48))),
+						(int) (sizeMultiplier * (this.y + (dir == Direction.VERTICAL ? 48 + 48 * i : 48))),
 						u,v, u + 48, v + 48, null);
 			}
 		}

@@ -25,5 +25,5 @@ public abstract class ObjectRenderer {
 		this.y = y;
 	}
 	
-	public abstract void simpleDraw(Graphics gfx);
+	public abstract void simpleDraw(Graphics gfx, float sizeMultiplier);
 }

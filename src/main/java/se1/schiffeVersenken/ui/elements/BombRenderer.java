@@ -11,9 +11,9 @@ public class BombRenderer extends ObjectRenderer{
 	}
 
 	@Override
-	public void simpleDraw(Graphics gfx) {
+	public void simpleDraw(Graphics gfx, float sizeMultiplier) {
 		gfx.drawImage(objects,
-				x, y, x + 48, y + 48,
+				(int) (sizeMultiplier * x), (int) (sizeMultiplier * y), (int) (sizeMultiplier * (x + 48)), (int) (sizeMultiplier * (y + 48)),
 				48, ship ? 48 : 0, 96, ship ? 96 : 48, null);
 	}
 }

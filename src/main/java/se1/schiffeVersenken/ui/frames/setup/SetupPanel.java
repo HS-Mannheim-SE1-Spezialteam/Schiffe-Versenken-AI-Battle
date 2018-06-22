@@ -1,32 +1,30 @@
 package se1.schiffeVersenken.ui.frames.setup;
 
 import java.awt.Dimension;
-import java.awt.image.BufferedImage;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JSplitPane;
 import javax.swing.SpinnerNumberModel;
 
+import se1.schiffeVersenken.botBattle.PlayerInfo;
 import se1.schiffeVersenken.interfaces.GameSettings.ShipBorderConditions;
 import se1.schiffeVersenken.interfaces.util.Direction;
 import se1.schiffeVersenken.ui.UIControll;
 import se1.schiffeVersenken.ui.elements.JShip;
-import javax.swing.Box;
-import javax.swing.JSplitPane;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
 
 public class SetupPanel extends JPanel{
 
+
+	private PlayerInfo[] playerInformations;
+	
 	private static final long serialVersionUID = 1L;
 
 	protected JSpinner shipSize1 = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
@@ -45,46 +43,41 @@ public class SetupPanel extends JPanel{
 	JRadioButton rbtnNoTouch = new JRadioButton("No touch");
 	JRadioButton rbtnNoDirectTouch = new JRadioButton("No Direct Touch");
 	JRadioButton rbtnTouch = new JRadioButton("Allow Touch");
+	
+	public JComboBox<String> cbPlayer1 = new JComboBox<String>();
+	public JComboBox<String> cbPlayer2 = new JComboBox<String>();
 
 	
-	public SetupPanel() {
+	public SetupPanel(PlayerInfo[] playerInformations) {
+		this.playerInformations = playerInformations;
+		for(PlayerInfo info : playerInformations){
+			cbPlayer1.addItem(info.name);
+			cbPlayer2.addItem(info.name);
+		}
 		this.setPreferredSize(new Dimension(843, 510));
 
-		
 		JButton btnLaunch = new JButton("Start");
 		btnLaunch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int[] ships = new int[] {
-					(Integer) shipSize1.getValue(),
-					(Integer) shipSize2.getValue(),
-					(Integer) shipSize3.getValue(),
-					(Integer) shipSize4.getValue(),
-					(Integer) shipSize5.getValue(),
-					(Integer) shipSize6.getValue(),
-					(Integer) shipSize7.getValue(),
-					(Integer) shipSize8.getValue(),
-					(Integer) shipSize9.getValue(),
-					(Integer) shipSize10.getValue()
-				};
-				
-				
-				if(rbtnTouch.isSelected())
-					UIControll.initGame(ShipBorderConditions.TOUCHING_ALLOWED, ships, false);
-				else if (rbtnNoDirectTouch.isSelected())
-					UIControll.initGame(ShipBorderConditions.NO_DIRECT_TOUCH, ships, false);
-				else if(rbtnNoTouch.isSelected())
-					UIControll.initGame(ShipBorderConditions.NO_DIRECT_AND_DIAGONAL_TOUCH, ships, false);
-
+				setup(false);
+			};
+		});
+		
+		JButton btnQickLaunch = new JButton("Quick Start");
+		btnQickLaunch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setup(true);
 			}
 		});
+		btnQickLaunch.setBounds(10, 455, 202, 44);
+		add(btnQickLaunch);
+		
 		btnLaunch.setBounds(222, 455, 611, 44);
 		setLayout(null);
 		add(btnLaunch);
 		
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setResizeWeight(0.25);
-		splitPane.setOneTouchExpandable(true);
-		splitPane.setContinuousLayout(true);
 		splitPane.setBounds(10, 22, 823, 422);
 		add(splitPane);
 		
@@ -92,22 +85,47 @@ public class SetupPanel extends JPanel{
 		splitPane.setLeftComponent(placementSettings);
 		placementSettings.setLayout(null);
 		
-		rbtnNoDirectTouch.setBounds(6, 54, 192, 23);
-		placementSettings.add(rbtnNoDirectTouch);
-		gameModeSelection.add(rbtnNoDirectTouch);
-		rbtnTouch.setSelected(true);
+		JSplitPane splitPane_1 = new JSplitPane();
+		splitPane_1.setResizeWeight(0.5);
+		splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane_1.setBounds(0, 0, 204, 420);
+		placementSettings.add(splitPane_1);
 		
-		rbtnTouch.setBounds(6, 28, 192, 23);
-		placementSettings.add(rbtnTouch);
-		gameModeSelection.add(rbtnTouch);
-		
-		rbtnNoTouch.setBounds(6, 80, 192, 23);
-		placementSettings.add(rbtnNoTouch);
-		gameModeSelection.add(rbtnNoTouch);
+		JPanel panel = new JPanel();
+		splitPane_1.setLeftComponent(panel);
+		panel.setLayout(null);
 		
 		JLabel lblPlacementMode = new JLabel("Placement Mode:");
-		lblPlacementMode.setBounds(6, 9, 192, 14);
-		placementSettings.add(lblPlacementMode);
+		lblPlacementMode.setBounds(7, 9, 189, 14);
+		panel.add(lblPlacementMode);
+		rbtnNoDirectTouch.setBounds(6, 54, 190, 23);
+		panel.add(rbtnNoDirectTouch);
+		gameModeSelection.add(rbtnNoDirectTouch);
+		rbtnTouch.setBounds(7, 30, 189, 23);
+		panel.add(rbtnTouch);
+		rbtnTouch.setSelected(true);
+		gameModeSelection.add(rbtnTouch);
+		rbtnNoTouch.setBounds(7, 80, 189, 23);
+		panel.add(rbtnNoTouch);
+		gameModeSelection.add(rbtnNoTouch);
+		
+		JPanel panel_1 = new JPanel();
+		splitPane_1.setRightComponent(panel_1);
+		panel_1.setLayout(null);
+		
+		cbPlayer1.setBounds(10, 32, 182, 20);
+		panel_1.add(cbPlayer1);
+		
+		JLabel lblPlayer1 = new JLabel("Player 1");
+		lblPlayer1.setBounds(10, 11, 182, 14);
+		panel_1.add(lblPlayer1);
+		
+		JLabel lblPlayer2 = new JLabel("Player 2");
+		lblPlayer2.setBounds(10, 64, 182, 14);
+		panel_1.add(lblPlayer2);
+		
+		cbPlayer2.setBounds(10, 85, 182, 20);
+		panel_1.add(cbPlayer2);
 		
 		JPanel shipSettings = new JPanel();
 		splitPane.setRightComponent(shipSettings);
@@ -186,9 +204,28 @@ public class SetupPanel extends JPanel{
 		
 		shipSize7.setBounds(500, 95, 48, 48);
 		shipSettings.add(shipSize7);
-		
-		JButton btnQickLaunch = new JButton("Quick Start");
-		btnQickLaunch.setBounds(10, 455, 202, 44);
-		add(btnQickLaunch);
+
+	}
+	
+	private void setup(boolean fastMode){
+		int[] ships = new int[] {
+			(Integer) shipSize1.getValue(),
+			(Integer) shipSize2.getValue(),
+			(Integer) shipSize3.getValue(),
+			(Integer) shipSize4.getValue(),
+			(Integer) shipSize5.getValue(),
+			(Integer) shipSize6.getValue(),
+			(Integer) shipSize7.getValue(),
+			(Integer) shipSize8.getValue(),
+			(Integer) shipSize9.getValue(),
+			(Integer) shipSize10.getValue()
+		};
+			
+		if(rbtnTouch.isSelected())
+			UIControll.initGame(ShipBorderConditions.TOUCHING_ALLOWED, ships, playerInformations[cbPlayer1.getSelectedIndex()], playerInformations[cbPlayer2.getSelectedIndex()] , fastMode);
+		else if (rbtnNoDirectTouch.isSelected())
+			UIControll.initGame(ShipBorderConditions.NO_DIRECT_TOUCH, ships, playerInformations[cbPlayer1.getSelectedIndex()], playerInformations[cbPlayer2.getSelectedIndex()], fastMode);
+		else if(rbtnNoTouch.isSelected())
+			UIControll.initGame(ShipBorderConditions.NO_DIRECT_AND_DIAGONAL_TOUCH, ships, playerInformations[cbPlayer1.getSelectedIndex()], playerInformations[cbPlayer2.getSelectedIndex()], fastMode);
 	}
 }
