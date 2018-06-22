@@ -1,11 +1,8 @@
 package se1.schiffeVersenken.ui.frames.fast;
 
-import javax.swing.JPanel;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JTable;
 import java.awt.BorderLayout;
+
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class WinnerPane extends JPanel{
