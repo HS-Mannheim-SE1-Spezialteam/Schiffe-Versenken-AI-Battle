@@ -4,7 +4,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
-import javax.swing.WindowConstants;
 
 import se1.schiffeVersenken.botBattle.Game;
 import se1.schiffeVersenken.botBattle.PlayerInfo;
@@ -13,11 +12,9 @@ import se1.schiffeVersenken.interfaces.Ship;
 import se1.schiffeVersenken.interfaces.Tile;
 import se1.schiffeVersenken.interfaces.util.Position;
 import se1.schiffeVersenken.ui.elements.BombRenderer;
-import se1.schiffeVersenken.ui.elements.JShip;
 import se1.schiffeVersenken.ui.elements.ObjectRenderer;
 import se1.schiffeVersenken.ui.elements.ShipRenderer;
 import se1.schiffeVersenken.ui.frames.fast.WinnerScreen;
-import javax.swing.JScrollPane;
 
 public class GameArea extends JFrame implements GameCallback{
 	

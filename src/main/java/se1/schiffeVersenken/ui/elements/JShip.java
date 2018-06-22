@@ -1,6 +1,5 @@
 package se1.schiffeVersenken.ui.elements;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
