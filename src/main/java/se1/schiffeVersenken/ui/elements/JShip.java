@@ -37,7 +37,12 @@ public class JShip extends JComponent{
 	@Override
 	public void paint(Graphics gfx){
 		if(size == 1) {
-			
+			gfx.drawImage(objects,
+					(int) 0,
+					(int) 0,
+					(int) 48,
+					(int) 48,
+					48, 96, 96, 155, null);
 		}else {
 			for(int i = 0; i < size; i++) {
 				
