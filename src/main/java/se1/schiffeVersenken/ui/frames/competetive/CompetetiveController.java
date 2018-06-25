@@ -8,7 +8,6 @@ import se1.schiffeVersenken.interfaces.GameSettingsBuilder;
 import se1.schiffeVersenken.interfaces.Ship;
 import se1.schiffeVersenken.interfaces.Tile;
 import se1.schiffeVersenken.interfaces.util.Position;
-import se1.schiffeVersenken.ui.frames.fast.FastCallback;
 
 public class CompetetiveController implements GameCallback{
 
@@ -56,7 +55,7 @@ public class CompetetiveController implements GameCallback{
 	}
 
 	private void nextGame() {
-		Thread trd = new Thread(() -> new Game(this.competetiveGameSettings, switchSides ? allGames[gameRunning].getP2() : allGames[gameRunning].getP1(), switchSides ? allGames[gameRunning].getP1() : allGames[gameRunning].getP2(), this).run());
+		Thread trd = new Thread(() -> new Game(this.competetiveGameSettings, this).run(switchSides ? allGames[gameRunning].getP2() : allGames[gameRunning].getP1(), switchSides ? allGames[gameRunning].getP1() : allGames[gameRunning].getP2()));
 		switchSides = !switchSides;
 		trd.start();
 	}
@@ -82,7 +81,7 @@ public class CompetetiveController implements GameCallback{
 
 
 	@Override
-	public void onGameOver(boolean isSide1) {
+	public void onGameOver(boolean isSide1, GameOverReason gameOverReason, Throwable throwable) {
 		boolean result = false;
 		if(isSide1) {
 			result = allGames[gameRunning].pointP1();

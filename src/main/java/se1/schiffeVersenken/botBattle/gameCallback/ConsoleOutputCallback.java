@@ -1,11 +1,13 @@
 package se1.schiffeVersenken.botBattle.gameCallback;
 
+import java.io.PrintStream;
+
 import se1.schiffeVersenken.botBattle.Game;
 import se1.schiffeVersenken.interfaces.Ship;
 import se1.schiffeVersenken.interfaces.Tile;
 import se1.schiffeVersenken.interfaces.util.Position;
 
-import java.io.PrintStream;
+import static se1.schiffeVersenken.botBattle.gameCallback.GameCallback.GameOverReason.*;
 
 public class ConsoleOutputCallback implements GameCallback {
 	
@@ -68,9 +70,10 @@ public class ConsoleOutputCallback implements GameCallback {
 	}
 	
 	@Override
-	public void onGameOver(boolean isSide1) {
+	public void onGameOver(boolean isSide1, GameOverReason gameOverReason, Throwable throwable) {
 		out.println("\u001b[32m" + "!!!Player " + (isSide1 ? game.side1 : game.side2).playerInfo.name + " has won!!!");
 		out.println("The looser is " + (!isSide1 ? game.side1 : game.side2).playerInfo.name + "\u001b[0m");
+		out.println("Game over because " + (gameOverReason == REASON_WIN ? "someone won!" : gameOverReason == REASON_CRASH ? "the looser AI crashed!" : "unknown!"));
 		out.println();
 		out.println("Final status: ");
 		fancyStatusPrint();

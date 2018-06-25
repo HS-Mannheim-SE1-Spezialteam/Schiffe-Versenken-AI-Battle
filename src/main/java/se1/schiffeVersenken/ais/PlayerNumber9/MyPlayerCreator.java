@@ -1,12 +1,12 @@
-package se1.schiffeVersenken.ais.team3;
+package se1.schiffeVersenken.ais.PlayerNumber9;
 
 import se1.schiffeVersenken.interfaces.GameSettings;
-import se1.schiffeVersenken.interfaces.PlayableAI;
 import se1.schiffeVersenken.interfaces.GameSettings.ShipBorderConditions;
+import se1.schiffeVersenken.interfaces.PlayableAI;
 import se1.schiffeVersenken.interfaces.Player;
 import se1.schiffeVersenken.interfaces.PlayerCreator;
 
-@PlayableAI("team3")
+@PlayableAI("PlayerNumber9")
 public class MyPlayerCreator implements PlayerCreator{
 	
 	@Override

@@ -1,4 +1,4 @@
-package se1.schiffeVersenken.ais.team3;
+package se1.schiffeVersenken.ais.PlayerNumber9;
 
 public class AI {
 	/**
@@ -476,7 +476,7 @@ public class AI {
 		test.setShips();
 		System.out.println("Your Field");
 		test.getField().printField();
-		System.out.println("");
+		System.out.println();
 		for (int i = 0; i < 10; i++) {
 			test.takeTurn();
 			if (i < 6) {
@@ -506,7 +506,7 @@ public class AI {
 		System.out.println("Your History after 10 shots");
 		// System.out.print("" + test.getHistory().totalHits() + " hits\n");
 		// System.out.println(test.getHistory());
-		System.out.println("");
+		System.out.println();
 
 	}
 

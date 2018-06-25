@@ -31,7 +31,7 @@ public class ExampleMain {
 		ConsoleOutputCallback callback = new ConsoleOutputCallback().setDelay(1000);
 		
 		//create the Game and run it
-		new Game(gameSettings, player1, player2, callback).run();
+		new Game(gameSettings, callback).run(player1, player2);
 	}
 	
 }

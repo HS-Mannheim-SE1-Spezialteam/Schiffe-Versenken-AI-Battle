@@ -1,5 +1,11 @@
 package se1.schiffeVersenken.botBattle;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import se1.schiffeVersenken.botBattle.exceptions.GameBreakingException;
 import se1.schiffeVersenken.botBattle.exceptions.NoActionTakenException;
 import se1.schiffeVersenken.botBattle.exceptions.NoShipsSetException;
@@ -7,62 +13,68 @@ import se1.schiffeVersenken.botBattle.gameCallback.GameCallback;
 import se1.schiffeVersenken.botBattle.util.Grid2;
 import se1.schiffeVersenken.botBattle.world.ShipWorld;
 import se1.schiffeVersenken.botBattle.world.ShipWorldImpl;
-import se1.schiffeVersenken.interfaces.GameSettings;
-import se1.schiffeVersenken.interfaces.Player;
-import se1.schiffeVersenken.interfaces.Ship;
-import se1.schiffeVersenken.interfaces.Tile;
-import se1.schiffeVersenken.interfaces.TurnAction;
+import se1.schiffeVersenken.interfaces.*;
 import se1.schiffeVersenken.interfaces.exception.action.ActionPositionOutOfBoundsException;
 import se1.schiffeVersenken.interfaces.exception.action.AlreadyShotPositionException;
 import se1.schiffeVersenken.interfaces.exception.action.InvalidActionException;
 import se1.schiffeVersenken.interfaces.util.Position;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-public class Game implements Runnable {
+public class Game {
 	
-	public final Side side1;
-	public final Side side2;
-	public GameCallback callback;
+	public final GameSettings settings;
+	public final GameCallback callback;
 	
-	public Game(GameSettings settings, PlayerInfo playerCreator1, PlayerInfo playerCreator2, GameCallback callback) {
-		this.side1 = new Side(settings, playerCreator1, playerCreator2);
-		this.side2 = new Side(settings, playerCreator2, playerCreator1);
+	public Side side1;
+	public Side side2;
+	
+	public Game(GameSettings settings, GameCallback callback) {
+		this.settings = settings;
 		this.callback = callback;
-		
-		callback.init(this);
 	}
 	
-	@Override
-	public void run() {
+	public void run(PlayerInfo playerCreator1, PlayerInfo playerCreator2) {
+		callback.init(this);
+		
+		try {
+			this.side1 = new Side(settings, playerCreator1, playerCreator2);
+		} catch (Throwable e) {
+			callback.onGameOver(false, GameCallback.GameOverReason.REASON_CRASH, e);
+		}
+		
+		try {
+			this.side2 = new Side(settings, playerCreator2, playerCreator1);
+		} catch (Throwable e) {
+			callback.onGameOver(true, GameCallback.GameOverReason.REASON_CRASH, e);
+		}
+		
 		Side active = side1;
 		Side other = side2;
 		
 		for (int id = 0; true; id++) {
-			CustomTurnAction turnAction = new CustomTurnAction(active, other, id);
-			
-			//actually take the turn
-			active.player.takeTurn(turnAction);
-			if (!turnAction.isTaken())
-				throw new NoActionTakenException(active.playerInfo.name);
-			
-			//if hasLost
-			if (Stream.of(other.ownWorld.getShips()).allMatch(Ship::isSunk))
-				break;
-			
-			if (!turnAction.wasHit) {
-				//switch players
-				Side temp = active;
-				active = other;
-				other = temp;
+			try {
+				CustomTurnAction turnAction = new CustomTurnAction(active, other, id);
+				
+				//actually take the turn
+				active.player.takeTurn(turnAction);
+				if (!turnAction.isTaken())
+					throw new NoActionTakenException(active.playerInfo.name);
+				
+				//if hasLost
+				if (Stream.of(other.ownWorld.getShips()).allMatch(Ship::isSunk))
+					break;
+				
+				if (!turnAction.wasHit) {
+					//switch players
+					Side temp = active;
+					active = other;
+					other = temp;
+				}
+			} catch (Throwable e) {
+				callback.onGameOver(side1 == active, GameCallback.GameOverReason.REASON_CRASH, e);
 			}
 		}
 		
-		callback.onGameOver(side1 == active);
+		callback.onGameOver(side1 == active, GameCallback.GameOverReason.REASON_WIN, null);
 		active.player.gameOver(true);
 		other.player.gameOver(false);
 	}

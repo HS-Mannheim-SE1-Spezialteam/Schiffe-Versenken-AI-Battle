@@ -1,4 +1,4 @@
-package se1.schiffeVersenken.ais.team3;
+package se1.schiffeVersenken.ais.PlayerNumber9;
 
 public class Spielfeld {
 
@@ -261,11 +261,7 @@ public class Spielfeld {
 	}
 
 	public boolean shootOfAi(int x, int y) {
-		if (checkHit(x, y)) {
-			return true;
-		} else {
-			return false;
-		}
+		return checkHit(x, y);
 	}
 
 	public boolean checkHit(int vertical, int horizontal) {
@@ -291,7 +287,7 @@ public class Spielfeld {
 				}
 				System.out.print("[" + mark + "]");
 			}
-			System.out.println("");
+			System.out.println();
 		}
 	}
 }

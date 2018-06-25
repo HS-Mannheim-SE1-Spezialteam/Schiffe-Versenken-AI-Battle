@@ -1,8 +1,8 @@
-package se1.schiffeVersenken.ais.team3;
+package se1.schiffeVersenken.ais.PlayerNumber9;
 
 public class Probe {//only for Wasser or Ecken
 	/*things taht shouldnt happen here:
-	 * rule is Berühren
+	 * rule is Berï¿½hren
 	 * probing is over 3
 	 * probing persists after ship-kill
 	 * */
