@@ -14,6 +14,7 @@ import javax.swing.BoxLayout;
 import java.awt.Component;
 import javax.swing.Box;
 import java.awt.Font;
+import java.awt.Dimension;
 
 public class SingleGame extends JPanel{
 	
@@ -38,13 +39,16 @@ public class SingleGame extends JPanel{
 		this.p1 = p1;
 		this.p2 = p2;
 		
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		
+		Box horizontalBox_1 = Box.createHorizontalBox();
+		add(horizontalBox_1);
+		
 		lblPlayer1 = new JLabel(p1.name);
 		lblPlayer2 = new JLabel(p2.name);
 		
-		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		
 		Box verticalBox = Box.createVerticalBox();
-		add(verticalBox);
+		horizontalBox_1.add(verticalBox);
 		
 		Box horizontalBox = Box.createHorizontalBox();
 		verticalBox.add(horizontalBox);

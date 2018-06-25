@@ -23,9 +23,9 @@ public class UIControll {
 //		System.setSecurityManager(new SecurityManager());
 		setup = new GameSetup(new PlayerInfo[]{
 				new PlayerInfo(new se1.schiffeVersenken.ais.voidQuality.AICreator()),
-				new PlayerInfo(new se1.schiffeVersenken.ais.PlayerNumber9.MyPlayerCreator()),
 				new PlayerInfo(new se1.schiffeVersenken.ais.superSpezialTeam.playerCreator.MyPlayerCreator()),
 				new PlayerInfo(new ReferencePlayerCreator()),
+				new PlayerInfo(new se1.schiffeVersenken.ais.PlayerNumber9.MyPlayerCreator())
 		});
 		setup.setVisible(true);
 	}
