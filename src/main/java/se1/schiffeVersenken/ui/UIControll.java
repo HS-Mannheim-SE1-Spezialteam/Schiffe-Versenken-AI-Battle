@@ -1,5 +1,7 @@
 package se1.schiffeVersenken.ui;
 
+import javax.swing.JFrame;
+
 import se1.schiffeVersenken.ReferenceAi.ReferencePlayerCreator;
 import se1.schiffeVersenken.botBattle.Game;
 import se1.schiffeVersenken.botBattle.PlayerInfo;
@@ -11,8 +13,6 @@ import se1.schiffeVersenken.ui.frames.fast.FastCallback;
 import se1.schiffeVersenken.ui.frames.game.GameArea;
 import se1.schiffeVersenken.ui.frames.setup.GameSetup;
 
-import javax.swing.JFrame;
-
 public class UIControll {
 	
 	public static JFrame setup;
@@ -22,7 +22,8 @@ public class UIControll {
 	public static void main(String[] args) {
 		System.setSecurityManager(new SecurityManager());
 		setup = new GameSetup(new PlayerInfo[]{
-			new PlayerInfo(new ReferencePlayerCreator()),
+			new PlayerInfo(new se1.schiffeVersenken.ais.voidQuality.AICreator()),
+				new PlayerInfo(new se1.schiffeVersenken.ais.superSpezialTeam.MyPlayerCreator()),
 
 			new PlayerInfo(new ReferencePlayerCreator()),
 
