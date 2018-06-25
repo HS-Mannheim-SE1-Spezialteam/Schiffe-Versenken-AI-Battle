@@ -1,12 +1,13 @@
 package se1.schiffeVersenken.ui;
 
+import java.io.OutputStream;
+import java.io.PrintStream;
+
 import javax.swing.JFrame;
 
 import se1.schiffeVersenken.ais.ReferenceAi.ReferencePlayerCreator;
 import se1.schiffeVersenken.botBattle.Game;
 import se1.schiffeVersenken.botBattle.PlayerInfo;
-import se1.schiffeVersenken.botBattle.gameCallback.ConsoleOutputCallback;
-import se1.schiffeVersenken.botBattle.gameCallback.GameCallback;
 import se1.schiffeVersenken.interfaces.GameSettings;
 import se1.schiffeVersenken.interfaces.GameSettingsBuilder;
 import se1.schiffeVersenken.ui.frames.fast.FastCallback;
@@ -16,11 +17,15 @@ import se1.schiffeVersenken.ui.frames.setup.GameSetup;
 public class UIControll {
 	
 	public static JFrame setup;
-	
 	public static float sizeMultiplier = 1.0F;
+	public static PrintStream originalOut;
 	
 	public static void main(String[] args) {
 //		System.setSecurityManager(new SecurityManager());
+		
+		originalOut = System.out;
+		System.setOut(new PrintStream(new NullPrintStream()));
+		
 		setup = new GameSetup(new PlayerInfo[]{
 				new PlayerInfo(new se1.schiffeVersenken.ais.voidQuality.AICreator()),
 				new PlayerInfo(new se1.schiffeVersenken.ais.superSpezialTeam.playerCreator.MyPlayerCreator()),
@@ -37,10 +42,39 @@ public class UIControll {
 			builder.setNumOfShips(i + 1, ships[i]);
 		
 		if (!fastMode) {
-			Thread trd = new Thread(() -> new Game(builder.createGameSettings(), p1, p2, GameCallback.mergeCallback(new GameArea(1000), new ConsoleOutputCallback().setDelay(0))).run());
+			Thread trd = new Thread(() -> new Game(builder.createGameSettings(), p1, p2, new GameArea(1000)).run());
 			trd.start();
 		} else {
 			new Game(builder.createGameSettings(), p1, p2, new FastCallback()).run();
 		}
 	}
+	
+	public static class NullPrintStream extends OutputStream {
+		
+		@Override
+		public void write(int b) {
+		
+		}
+		
+		@Override
+		public void write(byte[] b) {
+		
+		}
+		
+		@Override
+		public void write(byte[] b, int off, int len) {
+		
+		}
+		
+		@Override
+		public void flush() {
+		
+		}
+		
+		@Override
+		public void close() {
+		
+		}
+	}
+	
 }
