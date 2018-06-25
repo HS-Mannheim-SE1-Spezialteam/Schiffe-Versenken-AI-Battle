@@ -1,4 +1,4 @@
-package se1.schiffeVersenken.ReferenceAi;
+package se1.schiffeVersenken.ais.ReferenceAi;
 
 import se1.schiffeVersenken.botBattle.util.Grid2;
 import se1.schiffeVersenken.botBattle.world.ShipWorld;
@@ -35,6 +35,7 @@ public class ShipWorldImplChanged implements ShipWorld {
 		}
 	}
 	
+	@SuppressWarnings("UnusedReturnValue")
 	public static ShipWorld create(GameSettings settings, Ship[] ships) throws InvalidShipPlacementException {
 		int[] numberOfShips = settings.getNumberOfShips();
 		int[] count = new int[numberOfShips.length];
