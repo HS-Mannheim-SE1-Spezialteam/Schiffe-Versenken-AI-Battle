@@ -17,7 +17,7 @@ public class UIControll {
 	
 	public static JFrame setup;
 	
-	public static float sizeMultiplier = 2.0F;
+	public static float sizeMultiplier = 1.0F;
 	
 	public static void main(String[] args) {
 //		System.setSecurityManager(new SecurityManager());
