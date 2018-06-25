@@ -81,10 +81,10 @@ public class CompetetiveController implements GameCallback{
 	@Override
 	public synchronized  void onGameOver(boolean isSide1, GameOverReason gameOverReason, Throwable throwable) {
 		boolean result = false;
-		if(isSide1) {
-			result = allGames[gameRunning].pointP1();
-		}else {
+		if(isSide1 && switchSides) {
 			result = allGames[gameRunning].pointP2();
+		}else {
+			result = allGames[gameRunning].pointP1();
 		}
 		
 		if(result)
