@@ -50,18 +50,18 @@ public class CompetetiveController implements GameCallback{
 		MultipleGames games = new MultipleGames(allGames);
 		games.setVisible(true);
 		
-		nextGame();
-	}
-	
-	private void nextGame() {
-		new Game(this.competetiveGameSettings, allGames[gameRunning].getP1(), allGames[gameRunning].getP2(), this).run();
-
+		
+		for(int i = 0; i < playerInformations.length; i++) {
+			for(int j = i + 1; j < playerInformations.length; j++) {
+				for(int k = 0; k < roundAmount; k++) {
+					new Game(this.competetiveGameSettings, allGames[gameRunning].getP1(), allGames[gameRunning].getP2(), this).run();
+				}
+			}
+		}
 	}
 	
 	private synchronized void nextMatch() {
 		this.gameRunning ++;
-		if(this.gameRunning < allGames.length)
-			nextGame();
 	}
 	
 	@Override
@@ -72,13 +72,7 @@ public class CompetetiveController implements GameCallback{
 	}
 
 	@Override
-	public void onShot(int id, boolean isSide1, Position position, Tile tile, Ship ship) {
-//		try {
-//			Thread.sleep(1);
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
-	}
+	public void onShot(int id, boolean isSide1, Position position, Tile tile, Ship ship) {}
 
 	@Override
 	public synchronized  void onGameOver(boolean isSide1, GameOverReason gameOverReason, Throwable throwable) {
