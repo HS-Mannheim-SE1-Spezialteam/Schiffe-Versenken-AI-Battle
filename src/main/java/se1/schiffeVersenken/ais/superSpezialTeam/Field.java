@@ -1,10 +1,9 @@
-package se1.schiffeVersenken.ais.team2;
+package se1.schiffeVersenken.ais.superSpezialTeam;
 
 import java.util.Random;
 
 import se1.schiffeVersenken.interfaces.GameSettings;
 import se1.schiffeVersenken.interfaces.Ship;
-import se1.schiffeVersenken.interfaces.Tile;
 import se1.schiffeVersenken.interfaces.util.Direction;
 import se1.schiffeVersenken.interfaces.util.Position;
 

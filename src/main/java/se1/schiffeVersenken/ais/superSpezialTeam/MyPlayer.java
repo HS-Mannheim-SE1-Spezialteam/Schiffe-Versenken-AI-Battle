@@ -1,4 +1,4 @@
-package se1.schiffeVersenken.ais.team2;
+package se1.schiffeVersenken.ais.superSpezialTeam;
 
 import java.util.Random;
 
@@ -75,8 +75,8 @@ public class MyPlayer implements Player {
 			Tile tile = turnAction.shootTile(position);
 			System.out.println("shot tile value: " + tile.toString());
 			ki.markTile(tile);
-			System.out.println("");
-			System.out.println("");
+			System.out.println();
+			System.out.println();
 			// mark tile in enemyfield vergessen!!!!
 		} catch (InvalidActionException e) {
 			// TODO Auto-generated catch block
@@ -118,8 +118,8 @@ public class MyPlayer implements Player {
 	public Field getField(){
 		return myField;
 	}
-
-	protected Tile shootTile0(Position position) throws InvalidActionException {
+	
+	protected Tile shootTile0(Position position) {
 		MyTile tile = myField.getTileAt(position);
 		if(tile.getStatus() == MyTileEnum.SHIP){
 			enemyField.getTileAt(position).setStatus(MyTileEnum.SHIP_HIT);

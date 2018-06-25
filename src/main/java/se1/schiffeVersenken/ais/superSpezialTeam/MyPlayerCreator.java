@@ -1,4 +1,4 @@
-package se1.schiffeVersenken.ais.team2;
+package se1.schiffeVersenken.ais.superSpezialTeam;
 
 import se1.schiffeVersenken.interfaces.GameSettings;
 import se1.schiffeVersenken.interfaces.GameSettings.ShipBorderConditions;

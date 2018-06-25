@@ -1,4 +1,4 @@
-package se1.schiffeVersenken.ais.team2;
+package se1.schiffeVersenken.ais.superSpezialTeam;
 
 public enum MyTileEnum {
 
@@ -6,6 +6,6 @@ public enum MyTileEnum {
 	SHIP,
 	SHIP_KILL,
 	SHIP_HIT,
-	WATER_HIT;
+	WATER_HIT
 	
 }

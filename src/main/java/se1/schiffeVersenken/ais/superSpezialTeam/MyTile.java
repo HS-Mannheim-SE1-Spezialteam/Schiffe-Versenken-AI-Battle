@@ -1,4 +1,4 @@
-package se1.schiffeVersenken.ais.team2;
+package se1.schiffeVersenken.ais.superSpezialTeam;
 
 public class MyTile {
 	

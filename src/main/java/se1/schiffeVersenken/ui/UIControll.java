@@ -23,7 +23,7 @@ public class UIControll {
 		System.setSecurityManager(new SecurityManager());
 		setup = new GameSetup(new PlayerInfo[]{
 			new PlayerInfo(new se1.schiffeVersenken.ais.voidQuality.AICreator()),
-			new PlayerInfo(new se1.schiffeVersenken.ais.team2.MyPlayerCreator()),
+				new PlayerInfo(new se1.schiffeVersenken.ais.superSpezialTeam.MyPlayerCreator()),
 
 			new PlayerInfo(new ReferencePlayerCreator())
 		});
