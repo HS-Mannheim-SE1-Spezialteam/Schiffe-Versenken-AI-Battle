@@ -1,4 +1,3 @@
 rootProject.name = 'Schiffe-Versenken-Bot-Battle'
 include 'Schiffe-Versenken-API'
-include 'Schiffe-Versenken-Reference-AI'
 

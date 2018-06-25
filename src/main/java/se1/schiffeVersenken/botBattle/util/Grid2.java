@@ -1,6 +1,7 @@
 package se1.schiffeVersenken.botBattle.util;
 
 import java.util.Arrays;
+import java.util.function.UnaryOperator;
 
 import se1.schiffeVersenken.interfaces.util.Position;
 
@@ -54,6 +55,13 @@ public class Grid2<T> {
 		int index = getIndex(position);
 		T ret = array[index];
 		array[index] = obj;
+		return ret;
+	}
+	
+	public T accumulate(Position position, UnaryOperator<T> function) {
+		int index = getIndex(position);
+		T ret = function.apply(array[index]);
+		array[index] = ret;
 		return ret;
 	}
 }

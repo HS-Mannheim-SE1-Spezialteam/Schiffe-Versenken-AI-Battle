@@ -2,7 +2,7 @@ package se1.schiffeVersenken.ui;
 
 import javax.swing.JFrame;
 
-import se1.schiffeVersenken.ReferenceAi.ReferencePlayerCreator;
+import se1.schiffeVersenken.ais.ReferenceAi.ReferencePlayerCreator;
 import se1.schiffeVersenken.botBattle.Game;
 import se1.schiffeVersenken.botBattle.PlayerInfo;
 import se1.schiffeVersenken.botBattle.gameCallback.ConsoleOutputCallback;
@@ -36,10 +36,10 @@ public class UIControll {
 		for (int i = 0; i < ships.length; i++)
 			builder.setNumOfShips(i + 1, ships[i]);
 		
-		if(!fastMode){
+		if (!fastMode) {
 			Thread trd = new Thread(() -> new Game(builder.createGameSettings(), p1, p2, GameCallback.mergeCallback(new GameArea(1000), new ConsoleOutputCallback().setDelay(0))).run());
 			trd.start();
-		}else{
+		} else {
 			new Game(builder.createGameSettings(), p1, p2, new FastCallback()).run();
 		}
 	}

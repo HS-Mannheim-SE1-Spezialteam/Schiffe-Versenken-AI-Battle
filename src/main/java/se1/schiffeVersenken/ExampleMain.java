@@ -1,4 +1,6 @@
-import se1.schiffeVersenken.ReferenceAi.ReferencePlayerCreator;
+package se1.schiffeVersenken;
+
+import se1.schiffeVersenken.ais.ReferenceAi.ReferencePlayerCreator;
 import se1.schiffeVersenken.botBattle.Game;
 import se1.schiffeVersenken.botBattle.PlayerInfo;
 import se1.schiffeVersenken.botBattle.exceptions.NoShipsSetException;
