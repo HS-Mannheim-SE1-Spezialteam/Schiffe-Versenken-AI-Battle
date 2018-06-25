@@ -1,4 +1,4 @@
-package se1.schiffeVersenken.ais.superSpezialTeam;
+package se1.schiffeVersenken.ais.superSpezialTeam.playerCreator;
 
 import java.util.Random;
 

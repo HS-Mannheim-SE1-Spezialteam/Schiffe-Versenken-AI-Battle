@@ -14,6 +14,8 @@ public class CompetetiveController implements GameCallback{
 
 	private PlayerInfo[] playerInformations;
 	
+	private static int roundAmount = 10;
+	
 	public CompetetiveController (PlayerInfo[] info) {
 		playerInformations = info;
 	}
@@ -23,6 +25,7 @@ public class CompetetiveController implements GameCallback{
 	private SingleGame[] allGames = null;
 
 	private GameSettings competetiveGameSettings = null;
+	private boolean switchSides = false;
 	
 	public void init(GameSettings.ShipBorderConditions border, int[] ships) {
 		GameSettingsBuilder builder = new GameSettingsBuilder()
@@ -42,7 +45,7 @@ public class CompetetiveController implements GameCallback{
 		int currentGame = 0;
 		for(int i = 0; i < playerInformations.length; i++) {
 			for(int j = i + 1; j < playerInformations.length; j++) {
-				allGames[currentGame++] = new SingleGame(playerInformations[i], playerInformations[j], 0, 0, 10);
+				allGames[currentGame++] = new SingleGame(playerInformations[i], playerInformations[j], 0, 0, roundAmount);
 			}
 		}
 		
@@ -53,7 +56,8 @@ public class CompetetiveController implements GameCallback{
 	}
 
 	private void nextGame() {
-		Thread trd = new Thread(() -> new Game(this.competetiveGameSettings, allGames[gameRunning].getP1(), allGames[gameRunning].getP2(), this).run());
+		Thread trd = new Thread(() -> new Game(this.competetiveGameSettings, switchSides ? allGames[gameRunning].getP2() : allGames[gameRunning].getP1(), switchSides ? allGames[gameRunning].getP1() : allGames[gameRunning].getP2(), this).run());
+		switchSides = !switchSides;
 		trd.start();
 	}
 	
@@ -69,11 +73,11 @@ public class CompetetiveController implements GameCallback{
 
 	@Override
 	public void onShot(int id, boolean isSide1, Position position, Tile tile, Ship ship) {
-		try {
-			Thread.sleep(5);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			Thread.sleep(0);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 

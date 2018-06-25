@@ -22,14 +22,10 @@ public class UIControll {
 	public static void main(String[] args) {
 		System.setSecurityManager(new SecurityManager());
 		setup = new GameSetup(new PlayerInfo[]{
+			new PlayerInfo(new ReferencePlayerCreator()),
 			new PlayerInfo(new se1.schiffeVersenken.ais.voidQuality.AICreator()),
-				new PlayerInfo(new se1.schiffeVersenken.ais.superSpezialTeam.MyPlayerCreator()),
-
-			new PlayerInfo(new ReferencePlayerCreator()),
-
-			new PlayerInfo(new ReferencePlayerCreator()),
-
-			new PlayerInfo(new ReferencePlayerCreator())
+			new PlayerInfo(new se1.schiffeVersenken.ais.superSpezialTeam.playerCreator.MyPlayerCreator())//,
+//			new PlayerInfo(new se1.schiffeVersenken.ais.team3.MyPlayerCreator())
 		});
 		setup.setVisible(true);
 	}

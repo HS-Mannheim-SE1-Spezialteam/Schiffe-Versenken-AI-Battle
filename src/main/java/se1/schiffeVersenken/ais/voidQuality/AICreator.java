@@ -5,7 +5,7 @@ import se1.schiffeVersenken.interfaces.PlayableAI;
 import se1.schiffeVersenken.interfaces.Player;
 import se1.schiffeVersenken.interfaces.PlayerCreator;
 
-@PlayableAI("Shows up at the club with a club *uga uga*")
+@PlayableAI("void(Quality);")
 public class AICreator implements PlayerCreator {
 	@Override
 	public Player createPlayer(GameSettings settings, Class<? extends PlayerCreator> otherPlayer) {

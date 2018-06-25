@@ -1,7 +1,8 @@
-package se1.schiffeVersenken.ais.superSpezialTeam;
+package se1.schiffeVersenken.ais.superSpezialTeam.playerCreator;
 
 import java.util.Random;
 
+import se1.schiffeVersenken.ais.superSpezialTeam.takeTurn.PlayerAI;
 import se1.schiffeVersenken.interfaces.GameSettings.ShipBorderConditions;
 import se1.schiffeVersenken.interfaces.Player;
 import se1.schiffeVersenken.interfaces.Ship;
@@ -75,14 +76,14 @@ public class MyPlayer implements Player {
 			Tile tile = turnAction.shootTile(position);
 			System.out.println("shot tile value: " + tile.toString());
 			ki.markTile(tile);
-			System.out.println();
-			System.out.println();
+			System.out.println("");
+			System.out.println("");
 			// mark tile in enemyfield vergessen!!!!
 		} catch (InvalidActionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 
 	}
 
@@ -94,7 +95,7 @@ public class MyPlayer implements Player {
 		else
 			return Direction.HORIZONTAL;
 	}
-
+	
 	private void addShip(Ship ship) {
 		// adds a Ship to ships[]
 		if (ships == null) {
@@ -114,12 +115,12 @@ public class MyPlayer implements Player {
 	public Ship[] getShips() {
 		return ships;
 	}
-
+	
 	public Field getField(){
 		return myField;
 	}
 	
-	protected Tile shootTile0(Position position) {
+	protected Tile shootTile0(Position position) throws InvalidActionException {
 		MyTile tile = myField.getTileAt(position);
 		if(tile.getStatus() == MyTileEnum.SHIP){
 			enemyField.getTileAt(position).setStatus(MyTileEnum.SHIP_HIT);

@@ -1,10 +1,13 @@
-package se1.schiffeVersenken.ais.superSpezialTeam;
+package se1.schiffeVersenken.ais.superSpezialTeam.playerCreator;
 
 import se1.schiffeVersenken.interfaces.GameSettings;
+import se1.schiffeVersenken.interfaces.PlayableAI;
 import se1.schiffeVersenken.interfaces.GameSettings.ShipBorderConditions;
 import se1.schiffeVersenken.interfaces.Player;
 import se1.schiffeVersenken.interfaces.PlayerCreator;
 
+
+@PlayableAI("super.spezialTeam();*")
 public class MyPlayerCreator implements PlayerCreator {
 
 	@Override

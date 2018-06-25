@@ -1,4 +1,4 @@
-package se1.schiffeVersenken.ais.superSpezialTeam;
+package se1.schiffeVersenken.ais.superSpezialTeam.takeTurn;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -34,7 +34,46 @@ public class PlayerAI {
 				// isShot[x][y]);
 			} while (isShot[x][y]);
 			System.out.println("generated coordinates, x: " + x + ", y: " + y);
-		} 
+			initialHit[0] = x;
+			initialHit[1] = y;
+		} else {
+			boolean repeat = false;
+			System.out.println("Shot after hit");
+			System.out.println("initial Hit, x: " + initialHit[0] + ", y: " + initialHit[1]);
+			System.out.println("last Hit, x: " + lastHit[0] + ", y: " + lastHit[1]);
+			System.out.println("find surrounding shot");
+			int ekligerCounter = 0;
+			do {
+				repeat = false;
+				if (lastHit[0] < 9 && !isShot[lastHit[0] + 1][lastHit[1]]) {
+					x = lastHit[0] + 1;
+					y = lastHit[1];
+				} else if (lastHit[0] > 0 && !isShot[lastHit[0] - 1][lastHit[1]]) {
+					x = lastHit[0] - 1;
+					y = lastHit[1];
+				} else if (lastHit[1] < 9 && !isShot[lastHit[0]][lastHit[1] + 1]) {
+					x = lastHit[0];
+					y = lastHit[1] + 1;
+				} else if (lastHit[1] > 0 && !isShot[lastHit[0]][lastHit[1] - 1]) {
+					x = lastHit[0];
+					y = lastHit[1] - 1;
+				} else if (ekligerCounter > 6) {
+					repeat = false;
+					shootRandom = true;
+					do {
+						System.out.println("generating random shot within AI");
+						x = ThreadLocalRandom.current().nextInt(0, 10);
+						y = ThreadLocalRandom.current().nextInt(0, 10);
+					} while (isShot[x][y]);
+				} else {
+					lastHit[0] = initialHit[0];
+					lastHit[1] = initialHit[1];
+					repeat = true;
+				}
+
+				ekligerCounter++;
+			} while (repeat);
+		}
 		isShot[x][y] = true;
 		Position newPosition = new Position(x, y);
 		System.out.println("newPosition: x: " + newPosition.x + ", y: " + newPosition.y);
