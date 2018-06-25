@@ -58,8 +58,7 @@ public class ReferencePlayerCreator implements PlayerCreator {
 	//player
 	@Override
 	public Player createPlayer(GameSettings settings, Class<? extends PlayerCreator> otherPlayer) {
-		float[] importanceArray = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-		return new ReferencePlayer(settings, (shipLengthId, possibilities, shipCount) -> shipCount == 0 ? possibilities : (int) (importanceArray[shipLengthId] * shipCount * possibilities));
+		return new ReferencePlayer(settings);
 	}
 	
 	private class ReferencePlayer implements Player {
@@ -67,15 +66,12 @@ public class ReferencePlayerCreator implements PlayerCreator {
 		private final int id = ID_COUNTER.getAndIncrement();
 		private final Random r = R_CREATOR.get();
 		private final GameSettings settings;
-		private final ImportanceFunction importanceFunction;
 		
 		private Ship[] ships;
 		private Grid2<Tile> shots = new Grid2<>(GameSettings.SIZE_OF_PLAYFIELD_VECTOR);
 		
-		
-		public ReferencePlayer(GameSettings settings, ImportanceFunction importanceFunction) {
+		public ReferencePlayer(GameSettings settings) {
 			this.settings = settings;
-			this.importanceFunction = importanceFunction;
 		}
 		
 		/**
@@ -157,7 +153,9 @@ public class ReferencePlayerCreator implements PlayerCreator {
 							for (int shipLengthId = 0; shipLengthId < lengthTotal; shipLengthId++) {
 								int mostNeg = Integer.min(lengthNeg, shipLengthId);
 								int mostPos = Integer.min(lengthPos, shipLengthId);
-								importance += importanceFunction.importance(shipLengthId, (mostPos + mostNeg + 1), settings.getNumberOfShips(shipLengthId + 1));
+								int possibilities = (mostPos + mostNeg + 1);
+								int shipCount = settings.getNumberOfShips(shipLengthId + 1);
+								importance += possibilities + (shipCount == 0 ? 0 : shipCount * possibilities);
 							}
 						}
 						final int importance1 = importance;
@@ -264,13 +262,6 @@ public class ReferencePlayerCreator implements PlayerCreator {
 		private void println() {
 			System.out.println();
 		}
-	}
-	
-	@FunctionalInterface
-	public interface ImportanceFunction {
-		
-		int importance(int shipLengthId, int shipPlacementPossibilities, int shipCount);
-		
 	}
 	
 }
