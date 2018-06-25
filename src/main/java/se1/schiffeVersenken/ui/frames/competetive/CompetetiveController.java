@@ -24,7 +24,6 @@ public class CompetetiveController implements GameCallback{
 	private SingleGame[] allGames = null;
 
 	private GameSettings competetiveGameSettings = null;
-	private boolean switchSides = false;
 	
 	public void init(GameSettings.ShipBorderConditions border, int[] ships) {
 		GameSettingsBuilder builder = new GameSettingsBuilder()
@@ -54,8 +53,9 @@ public class CompetetiveController implements GameCallback{
 		nextGame();
 	}
 	
-	private void nextGame() {new Game(this.competetiveGameSettings, switchSides ? allGames[gameRunning].getP2() : allGames[gameRunning].getP1(), switchSides ? allGames[gameRunning].getP1() : allGames[gameRunning].getP2(), this).run();
-		switchSides = !switchSides;
+	private void nextGame() {
+		new Game(this.competetiveGameSettings, allGames[gameRunning].getP1(), allGames[gameRunning].getP2(), this).run();
+
 	}
 	
 	private synchronized void nextMatch() {
@@ -83,10 +83,10 @@ public class CompetetiveController implements GameCallback{
 	@Override
 	public synchronized  void onGameOver(boolean isSide1, GameOverReason gameOverReason, Throwable throwable) {
 		boolean result = false;
-		if(isSide1 && switchSides) {
-			result = allGames[gameRunning].pointP2();
-		}else {
+		if(isSide1) {
 			result = allGames[gameRunning].pointP1();
+		}else {
+			result = allGames[gameRunning].pointP2();
 		}
 		
 		if(result)
