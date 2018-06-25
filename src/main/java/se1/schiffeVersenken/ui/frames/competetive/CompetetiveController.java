@@ -55,9 +55,8 @@ public class CompetetiveController implements GameCallback{
 	}
 
 	private void nextGame() {
-		Thread trd = new Thread(() -> new Game(this.competetiveGameSettings, this).run(switchSides ? allGames[gameRunning].getP2() : allGames[gameRunning].getP1(), switchSides ? allGames[gameRunning].getP1() : allGames[gameRunning].getP2()));
+		new Game(this.competetiveGameSettings, this).run(switchSides ? allGames[gameRunning].getP2() : allGames[gameRunning].getP1(), switchSides ? allGames[gameRunning].getP1() : allGames[gameRunning].getP2());
 		switchSides = !switchSides;
-		trd.start();
 	}
 	
 	private synchronized void nextMatch() {
