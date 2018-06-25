@@ -214,7 +214,9 @@ public class SetupPanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				
 				CompetetiveController controller = new CompetetiveController(playerInformations);
-				controller.init(getBorderConditions(), gatherShips());
+				Thread trd = new Thread(() -> 
+				controller.init(getBorderConditions(), gatherShips()));
+				trd.start();
 			}
 		});
 		btnCompetition.setBounds(528, 455, 305, 44);
