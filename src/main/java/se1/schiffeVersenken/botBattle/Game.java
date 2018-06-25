@@ -33,19 +33,20 @@ public class Game {
 	}
 	
 	public void run(PlayerInfo playerCreator1, PlayerInfo playerCreator2) {
-		callback.init(this);
-		
 		try {
 			this.side1 = new Side(settings, playerCreator1, playerCreator2);
 		} catch (Throwable e) {
 			callback.onGameOver(false, GameCallback.GameOverReason.REASON_CRASH, e);
+			return;
 		}
 		
 		try {
 			this.side2 = new Side(settings, playerCreator2, playerCreator1);
 		} catch (Throwable e) {
 			callback.onGameOver(true, GameCallback.GameOverReason.REASON_CRASH, e);
+			return;
 		}
+		callback.init(this);
 		
 		Side active = side1;
 		Side other = side2;
@@ -71,6 +72,7 @@ public class Game {
 				}
 			} catch (Throwable e) {
 				callback.onGameOver(side1 == active, GameCallback.GameOverReason.REASON_CRASH, e);
+				return;
 			}
 		}
 		
@@ -106,6 +108,9 @@ public class Game {
 		}
 		
 		public String toString(boolean allowColor, Grid2<Boolean> hitTiles, Position highlightPos) {
+			if (ownWorld == null)
+				return "No world! ";
+			
 			AtomicInteger charCounter = new AtomicInteger();
 			Map<Ship, Integer> shipToCharacter = Arrays.stream(ownWorld.getShips())
 					.collect(Collectors.toMap(o -> o, o -> 'A' + charCounter.getAndIncrement()));
