@@ -85,8 +85,6 @@ public class CompetetiveController implements GameCallback{
 		
 		if(result)
 			nextMatch();
-		else
-			nextGame();
 	}
 	
 }
