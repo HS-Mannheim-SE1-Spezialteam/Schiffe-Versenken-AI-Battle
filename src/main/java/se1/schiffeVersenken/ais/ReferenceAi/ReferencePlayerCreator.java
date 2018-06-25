@@ -58,7 +58,8 @@ public class ReferencePlayerCreator implements PlayerCreator {
 	//player
 	@Override
 	public Player createPlayer(GameSettings settings, Class<? extends PlayerCreator> otherPlayer) {
-		return new ReferencePlayer(settings, createImportanceFunctionFromArray(new float[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}));
+		float[] importanceArray = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+		return new ReferencePlayer(settings, (shipLengthId, possibilities, shipCount) -> shipCount == 0 ? possibilities : (int) (importanceArray[shipLengthId] * shipCount * possibilities));
 	}
 	
 	private class ReferencePlayer implements Player {
@@ -67,27 +68,15 @@ public class ReferencePlayerCreator implements PlayerCreator {
 		private final Random r = R_CREATOR.get();
 		private final GameSettings settings;
 		private final ImportanceFunction importanceFunction;
-//		private final int[] lengthToShipPossibleCount;
 		
 		private Ship[] ships;
 		private Grid2<Tile> shots = new Grid2<>(GameSettings.SIZE_OF_PLAYFIELD_VECTOR);
-//		private int shotCount;
 		
 		
 		public ReferencePlayer(GameSettings settings, ImportanceFunction importanceFunction) {
 			this.settings = settings;
 			this.importanceFunction = importanceFunction;
 		}
-
-//		public ReferencePlayer(GameSettings settings) {
-//			this.settings = settings;
-
-//			int[] numberOfShips = settings.getNumberOfShips();
-//			this.lengthToShipPossibleCount = new int[numberOfShips.length];
-//			for (int i = 0; i < numberOfShips.length; i++)
-//				for (int j = 0; j <= i; j++)
-//					this.lengthToShipPossibleCount[i] += numberOfShips[j] * (i - j + 1);
-//		}
 		
 		/**
 		 * Warning: nested for loops ahead!!!
@@ -146,26 +135,11 @@ public class ReferencePlayerCreator implements PlayerCreator {
 			}
 		}
 		
+		/**
+		 * Warning: EVEN MORE nested for loops ahead!!!
+		 */
 		@Override
 		public void takeTurn(TurnAction turnAction) {
-//			shotCount++;
-//			if (shotCount > GameSettings.SIZE_OF_PLAYFIELD * GameSettings.SIZE_OF_PLAYFIELD)
-//				throw new RuntimeException("Should not happen");
-//
-//			while (true) {
-//				try {
-//					Position position = new Position(r.nextInt(GameSettings.SIZE_OF_PLAYFIELD), r.nextInt(GameSettings.SIZE_OF_PLAYFIELD));
-//					Tile tile = turnAction.shootTile(position);
-//					if (allowTalking)
-//						println(position + " -> " + tile);
-//					break;
-//				} catch (AlreadyShotPositionException ignore) {
-//					//continue
-//				} catch (InvalidActionException e) {
-//					throw new RuntimeException(e);
-//				}
-//			}
-			
 			Grid2<Integer> importanceGrid = new Grid2<>(GameSettings.SIZE_OF_PLAYFIELD_VECTOR, 0);
 			for (int x = 0; x < GameSettings.SIZE_OF_PLAYFIELD; x++) {
 				for (int y = 0; y < GameSettings.SIZE_OF_PLAYFIELD; y++) {
@@ -297,14 +271,6 @@ public class ReferencePlayerCreator implements PlayerCreator {
 		
 		int importance(int shipLengthId, int shipPlacementPossibilities, int shipCount);
 		
-	}
-	
-	public static ImportanceFunction createImportanceFunctionFromArray(int[] importanceArray) {
-		return (shipLengthId, pos, shipCount) -> shipCount == 0 ? 0 : importanceArray[shipLengthId] * shipCount * pos;
-	}
-	
-	public static ImportanceFunction createImportanceFunctionFromArray(float[] importanceArray) {
-		return (shipLengthId, pos, shipCount) -> shipCount == 0 ? 0 : (int) (importanceArray[shipLengthId] * shipCount * pos);
 	}
 	
 }
