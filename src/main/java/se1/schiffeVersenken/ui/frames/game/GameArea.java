@@ -6,7 +6,6 @@ import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 
 import se1.schiffeVersenken.botBattle.Game;
-import se1.schiffeVersenken.botBattle.PlayerInfo;
 import se1.schiffeVersenken.botBattle.gameCallback.GameCallback;
 import se1.schiffeVersenken.interfaces.Ship;
 import se1.schiffeVersenken.interfaces.Tile;
@@ -19,9 +18,8 @@ import se1.schiffeVersenken.ui.frames.fast.WinnerScreen;
 public class GameArea extends JFrame implements GameCallback{
 	
 	private GamePanel gamePanel = new GamePanel();
-
-	PlayerInfo side1;
-	PlayerInfo side2;
+	
+	Game game;
 	Thread creationThread;
 	int speed;
 	
@@ -72,9 +70,11 @@ public class GameArea extends JFrame implements GameCallback{
 
 	@Override
 	public void init(Game game) {
-		side1 = game.side1.playerInfo;
-		side2 = game.side2.playerInfo;
-		
+		this.game = game;
+	}
+	
+	@Override
+	public void shipsSet() {
 		Ship[] p1 = game.side1.ownWorld.getShips();
 		Ship[] p2 = game.side2.ownWorld.getShips();
 		
@@ -92,7 +92,7 @@ public class GameArea extends JFrame implements GameCallback{
 		
 		this.gamePanel.ships = ships;
 	}
-
+	
 	@Override
 	public void onShot(int id, boolean isSide1, Position position, Tile tile, Ship ship) {
 		synchronized (this.gamePanel.shots) {
@@ -110,6 +110,6 @@ public class GameArea extends JFrame implements GameCallback{
 
 	@Override
 	public void onGameOver(boolean isSide1, GameOverReason gameOverReason, Throwable throwable) {
-		new WinnerScreen(isSide1 ? side1.name : side2.name).setVisible(true);	
+		new WinnerScreen(isSide1 ? game.side1.playerInfo.name : game.side2.playerInfo.name).setVisible(true);
 	}
 }
