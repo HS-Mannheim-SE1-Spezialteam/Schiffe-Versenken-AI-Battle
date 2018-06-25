@@ -11,7 +11,14 @@ public interface GameCallback {
 	
 	void onShot(int id, boolean isSide1, Position position, Tile tile, Ship ship);
 	
-	void onGameOver(boolean isSide1);
+	void onGameOver(boolean isSide1, GameOverReason gameOverReason, Throwable throwable);
+	
+	enum GameOverReason {
+		
+		REASON_WIN,
+		REASON_CRASH
+		
+	}
 	
 	static GameCallback emptyCallback() {
 		return new GameCallback() {
@@ -26,7 +33,7 @@ public interface GameCallback {
 			}
 			
 			@Override
-			public void onGameOver(boolean isSide1) {
+			public void onGameOver(boolean isSide1, GameOverReason gameOverReason, Throwable throwable) {
 			
 			}
 		};
@@ -47,9 +54,9 @@ public interface GameCallback {
 			}
 			
 			@Override
-			public void onGameOver(boolean isSide1) {
-				c1.onGameOver(isSide1);
-				c2.onGameOver(isSide1);
+			public void onGameOver(boolean isSide1, GameOverReason gameOverReason, Throwable throwable) {
+				c1.onGameOver(isSide1, gameOverReason, throwable);
+				c2.onGameOver(isSide1, gameOverReason, throwable);
 			}
 		};
 	}

@@ -22,7 +22,7 @@ public class FastCallback implements GameCallback{
 	public void onShot(int id, boolean isSide1, Position position, Tile tile, Ship ship) {}
 
 	@Override
-	public void onGameOver(boolean isSide1) {
+	public void onGameOver(boolean isSide1, GameOverReason gameOverReason, Throwable throwable) {
 		new WinnerScreen(isSide1 ? side1.name : side2.name).setVisible(true);
 	}
 }

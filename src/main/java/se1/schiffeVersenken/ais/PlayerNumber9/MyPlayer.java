@@ -1,12 +1,7 @@
-package se1.schiffeVersenken.ais.team3;
+package se1.schiffeVersenken.ais.PlayerNumber9;
 
 import se1.schiffeVersenken.interfaces.GameSettings.ShipBorderConditions;
-import se1.schiffeVersenken.interfaces.Player;
-import se1.schiffeVersenken.interfaces.Ship;
-import se1.schiffeVersenken.interfaces.ShipPlacer;
-import se1.schiffeVersenken.interfaces.Tile;
-import se1.schiffeVersenken.interfaces.TurnAction;
-import se1.schiffeVersenken.interfaces.exception.shipPlacement.InvalidShipPlacementException;
+import se1.schiffeVersenken.interfaces.*;
 import se1.schiffeVersenken.interfaces.util.Position;
 
 public class MyPlayer implements Player, ShipPlacer{
@@ -50,7 +45,7 @@ public class MyPlayer implements Player, ShipPlacer{
 	}
 
 	@Override
-	public void setShips(Ship[] ships) throws InvalidShipPlacementException {
+	public void setShips(Ship[] ships) {
 		
 		
 	}

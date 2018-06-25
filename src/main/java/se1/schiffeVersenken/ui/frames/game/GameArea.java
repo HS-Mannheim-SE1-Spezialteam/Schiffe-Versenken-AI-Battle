@@ -99,7 +99,7 @@ public class GameArea extends JFrame implements GameCallback{
 			this.gamePanel.shots.add(new BombRenderer(position.x * 48 + (!isSide1 ? 48 : 672), position.y * 48 + 48, tile == Tile.SHIP || tile == Tile.SHIP_KILL));
 			if(this.speed > 0){
 				try {
-					creationThread.sleep(this.speed);
+					Thread.sleep(this.speed);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -109,7 +109,7 @@ public class GameArea extends JFrame implements GameCallback{
 	}
 
 	@Override
-	public void onGameOver(boolean isSide1) {
+	public void onGameOver(boolean isSide1, GameOverReason gameOverReason, Throwable throwable) {
 		new WinnerScreen(isSide1 ? side1.name : side2.name).setVisible(true);	
 	}
 }
