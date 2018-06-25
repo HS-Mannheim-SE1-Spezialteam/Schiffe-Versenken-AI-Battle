@@ -24,6 +24,10 @@ public class UIControll {
 		setup = new GameSetup(new PlayerInfo[]{
 			new PlayerInfo(new ReferencePlayerCreator()),
 
+			new PlayerInfo(new ReferencePlayerCreator()),
+
+			new PlayerInfo(new ReferencePlayerCreator()),
+
 			new PlayerInfo(new ReferencePlayerCreator())
 		});
 		setup.setVisible(true);

@@ -18,6 +18,10 @@ import se1.schiffeVersenken.interfaces.GameSettings.ShipBorderConditions;
 import se1.schiffeVersenken.interfaces.util.Direction;
 import se1.schiffeVersenken.ui.UIControll;
 import se1.schiffeVersenken.ui.elements.JShip;
+import se1.schiffeVersenken.ui.frames.competetive.CompetetiveController;
+import se1.schiffeVersenken.ui.frames.competetive.MultipleGames;
+import se1.schiffeVersenken.ui.frames.competetive.SingleGame;
+
 import javax.swing.JComboBox;
 
 public class SetupPanel extends JPanel{
@@ -72,7 +76,7 @@ public class SetupPanel extends JPanel{
 		btnQickLaunch.setBounds(10, 455, 202, 44);
 		add(btnQickLaunch);
 		
-		btnLaunch.setBounds(222, 455, 611, 44);
+		btnLaunch.setBounds(222, 455, 296, 44);
 		setLayout(null);
 		add(btnLaunch);
 		
@@ -204,28 +208,42 @@ public class SetupPanel extends JPanel{
 		
 		shipSize7.setBounds(500, 95, 48, 48);
 		shipSettings.add(shipSize7);
+		
+		JButton btnCompetition = new JButton("Launch Competition");
+		btnCompetition.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				CompetetiveController controller = new CompetetiveController(playerInformations);
+				controller.init(getBorderConditions(), gatherShips());
+			}
+		});
+		btnCompetition.setBounds(528, 455, 305, 44);
+		add(btnCompetition);
 
 	}
 	
+	private int[] gatherShips() {
+		return new int[] {
+				(Integer) shipSize1.getValue(),
+				(Integer) shipSize2.getValue(),
+				(Integer) shipSize3.getValue(),
+				(Integer) shipSize4.getValue(),
+				(Integer) shipSize5.getValue(),
+				(Integer) shipSize6.getValue(),
+				(Integer) shipSize7.getValue(),
+				(Integer) shipSize8.getValue(),
+				(Integer) shipSize9.getValue(),
+				(Integer) shipSize10.getValue()
+			};
+	}
+	
+	private ShipBorderConditions getBorderConditions() {
+		return rbtnTouch.isSelected() ? ShipBorderConditions.TOUCHING_ALLOWED : rbtnNoDirectTouch.isSelected() ? ShipBorderConditions.NO_DIRECT_TOUCH : ShipBorderConditions.NO_DIRECT_AND_DIAGONAL_TOUCH;
+	}
+	
 	private void setup(boolean fastMode){
-		int[] ships = new int[] {
-			(Integer) shipSize1.getValue(),
-			(Integer) shipSize2.getValue(),
-			(Integer) shipSize3.getValue(),
-			(Integer) shipSize4.getValue(),
-			(Integer) shipSize5.getValue(),
-			(Integer) shipSize6.getValue(),
-			(Integer) shipSize7.getValue(),
-			(Integer) shipSize8.getValue(),
-			(Integer) shipSize9.getValue(),
-			(Integer) shipSize10.getValue()
-		};
+		int[] ships = gatherShips();
 			
-		if(rbtnTouch.isSelected())
-			UIControll.initGame(ShipBorderConditions.TOUCHING_ALLOWED, ships, playerInformations[cbPlayer1.getSelectedIndex()], playerInformations[cbPlayer2.getSelectedIndex()] , fastMode);
-		else if (rbtnNoDirectTouch.isSelected())
-			UIControll.initGame(ShipBorderConditions.NO_DIRECT_TOUCH, ships, playerInformations[cbPlayer1.getSelectedIndex()], playerInformations[cbPlayer2.getSelectedIndex()], fastMode);
-		else if(rbtnNoTouch.isSelected())
-			UIControll.initGame(ShipBorderConditions.NO_DIRECT_AND_DIAGONAL_TOUCH, ships, playerInformations[cbPlayer1.getSelectedIndex()], playerInformations[cbPlayer2.getSelectedIndex()], fastMode);
+		UIControll.initGame(getBorderConditions(), ships, playerInformations[cbPlayer1.getSelectedIndex()], playerInformations[cbPlayer2.getSelectedIndex()] , fastMode);
 	}
 }
