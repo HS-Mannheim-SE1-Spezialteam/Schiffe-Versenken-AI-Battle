@@ -18,7 +18,7 @@ public class GamePanel extends JPanel{
 	private BufferedImage background = null;
 
 	protected ObjectRenderer[] ships;
-	protected List<ObjectRenderer> shots = new ArrayList<ObjectRenderer>();
+	protected final List<ObjectRenderer> shots = new ArrayList<>();
 	
 	public GamePanel() {		
 		this.setPreferredSize(new Dimension((int) (1200 * UIControll.sizeMultiplier), (int) (576 * UIControll.sizeMultiplier)));

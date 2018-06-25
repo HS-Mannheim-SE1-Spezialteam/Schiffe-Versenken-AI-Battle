@@ -9,6 +9,8 @@ public interface GameCallback {
 	
 	void init(Game game);
 	
+	void shipsSet();
+	
 	void onShot(int id, boolean isSide1, Position position, Tile tile, Ship ship);
 	
 	void onGameOver(boolean isSide1, GameOverReason gameOverReason, Throwable throwable);
@@ -24,6 +26,11 @@ public interface GameCallback {
 		return new GameCallback() {
 			@Override
 			public void init(Game game) {
+			
+			}
+			
+			@Override
+			public void shipsSet() {
 			
 			}
 			
@@ -45,6 +52,12 @@ public interface GameCallback {
 			public void init(Game game) {
 				c1.init(game);
 				c2.init(game);
+			}
+			
+			@Override
+			public void shipsSet() {
+				c1.shipsSet();
+				c2.shipsSet();
 			}
 			
 			@Override

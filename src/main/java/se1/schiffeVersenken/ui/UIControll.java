@@ -22,10 +22,10 @@ public class UIControll {
 	public static void main(String[] args) {
 //		System.setSecurityManager(new SecurityManager());
 		setup = new GameSetup(new PlayerInfo[]{
-			new PlayerInfo(new ReferencePlayerCreator()),
-			new PlayerInfo(new se1.schiffeVersenken.ais.voidQuality.AICreator()),
+				new PlayerInfo(new se1.schiffeVersenken.ais.voidQuality.AICreator()),
+				new PlayerInfo(new se1.schiffeVersenken.ais.PlayerNumber9.MyPlayerCreator()),
 				new PlayerInfo(new se1.schiffeVersenken.ais.superSpezialTeam.playerCreator.MyPlayerCreator()),
-				new PlayerInfo(new se1.schiffeVersenken.ais.PlayerNumber9.MyPlayerCreator())
+				new PlayerInfo(new ReferencePlayerCreator()),
 		});
 		setup.setVisible(true);
 	}
@@ -37,10 +37,10 @@ public class UIControll {
 			builder.setNumOfShips(i + 1, ships[i]);
 		
 		if (!fastMode) {
-			Thread trd = new Thread(() -> new Game(builder.createGameSettings(), GameCallback.mergeCallback(new GameArea(1000), new ConsoleOutputCallback().setDelay(0))).run(p1, p2));
+			Thread trd = new Thread(() -> new Game(builder.createGameSettings(), p1, p2, GameCallback.mergeCallback(new GameArea(1000), new ConsoleOutputCallback().setDelay(0))).run());
 			trd.start();
 		} else {
-			new Game(builder.createGameSettings(), new FastCallback()).run(p1, p2);
+			new Game(builder.createGameSettings(), p1, p2, new FastCallback()).run();
 		}
 	}
 }

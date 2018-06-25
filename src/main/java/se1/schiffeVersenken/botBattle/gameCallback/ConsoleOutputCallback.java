@@ -41,6 +41,11 @@ public class ConsoleOutputCallback implements GameCallback {
 	}
 	
 	@Override
+	public void shipsSet() {
+		fancyStatusPrint();
+	}
+	
+	@Override
 	public void onShot(int id, boolean isSide1, Position position, Tile tile, Ship ship) {
 		fancyStatusPrint(!isSide1 ? position : null, isSide1 ? position : null);
 		
@@ -64,7 +69,7 @@ public class ConsoleOutputCallback implements GameCallback {
 		String[] s1 = game.side1.toString(colored, game.side2.hitTiles, firstHighlight).split("\n");
 		String[] s2 = game.side2.toString(colored, game.side1.hitTiles, secondHighlight).split("\n");
 		for (int i = 0; i < Math.max(s1.length, s2.length); i++)
-			out.println("|" + s1[i] + "|      |" + s2[i] + "|");
+			out.println("|" + (i < s1.length ? s1[i] : "          ") + "|      |" + (i < s2.length ? s2[i] : "          ") + "|");
 		out.println("+----------+------+----------+");
 		out.println();
 	}

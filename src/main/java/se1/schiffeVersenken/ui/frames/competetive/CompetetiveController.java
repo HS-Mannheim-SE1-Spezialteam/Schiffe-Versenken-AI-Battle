@@ -13,7 +13,7 @@ public class CompetetiveController implements GameCallback{
 
 	private PlayerInfo[] playerInformations;
 	
-	private static int roundAmount = 100;
+	private static int roundAmount = 1000;
 	
 	public CompetetiveController (PlayerInfo[] info) {
 		playerInformations = info;
@@ -53,9 +53,8 @@ public class CompetetiveController implements GameCallback{
 		
 		nextGame();
 	}
-
-	private void nextGame() {
-		new Game(this.competetiveGameSettings, this).run(switchSides ? allGames[gameRunning].getP2() : allGames[gameRunning].getP1(), switchSides ? allGames[gameRunning].getP1() : allGames[gameRunning].getP2());
+	
+	private void nextGame() {new Game(this.competetiveGameSettings, switchSides ? allGames[gameRunning].getP2() : allGames[gameRunning].getP1(), switchSides ? allGames[gameRunning].getP1() : allGames[gameRunning].getP2(), this).run();
 		switchSides = !switchSides;
 	}
 	
@@ -67,6 +66,10 @@ public class CompetetiveController implements GameCallback{
 	
 	@Override
 	public void init(Game game) {}
+	
+	@Override
+	public void shipsSet() {
+	}
 
 	@Override
 	public void onShot(int id, boolean isSide1, Position position, Tile tile, Ship ship) {

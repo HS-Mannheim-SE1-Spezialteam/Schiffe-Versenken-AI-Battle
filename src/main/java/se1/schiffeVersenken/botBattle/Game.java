@@ -19,42 +19,49 @@ import se1.schiffeVersenken.interfaces.exception.action.AlreadyShotPositionExcep
 import se1.schiffeVersenken.interfaces.exception.action.InvalidActionException;
 import se1.schiffeVersenken.interfaces.util.Position;
 
-public class Game {
+public class Game implements Runnable {
 	
 	public final GameSettings settings;
+	public final PlayerInfo playerCreator1;
+	public final PlayerInfo playerCreator2;
 	public final GameCallback callback;
 	
 	public Side side1;
 	public Side side2;
 	
-	public Game(GameSettings settings, GameCallback callback) {
+	public Game(GameSettings settings, PlayerInfo playerCreator1, PlayerInfo playerCreator2, GameCallback callback) {
 		this.settings = settings;
+		this.playerCreator1 = playerCreator1;
+		this.playerCreator2 = playerCreator2;
 		this.callback = callback;
 	}
 	
-	public void run(PlayerInfo playerCreator1, PlayerInfo playerCreator2) {
+	public void run() {
+		this.side1 = new Side(playerCreator1);
+		this.side2 = new Side(playerCreator2);
+		callback.init(this);
+		
 		try {
-			this.side1 = new Side(settings, playerCreator1, playerCreator2);
+			side1.init(side2.playerInfo);
 		} catch (Throwable e) {
 			callback.onGameOver(false, GameCallback.GameOverReason.REASON_CRASH, e);
 			return;
 		}
 		
 		try {
-			this.side2 = new Side(settings, playerCreator2, playerCreator1);
+			side2.init(side2.playerInfo);
 		} catch (Throwable e) {
 			callback.onGameOver(true, GameCallback.GameOverReason.REASON_CRASH, e);
 			return;
 		}
-		callback.init(this);
+		callback.shipsSet();
 		
 		Side active = side1;
 		Side other = side2;
 		
 		for (int id = 0; true; id++) {
+			CustomTurnAction turnAction = new CustomTurnAction(active, other, id);
 			try {
-				CustomTurnAction turnAction = new CustomTurnAction(active, other, id);
-				
 				//actually take the turn
 				active.player.takeTurn(turnAction);
 				if (!turnAction.isTaken())
@@ -63,22 +70,30 @@ public class Game {
 				//if hasLost
 				if (Stream.of(other.ownWorld.getShips()).allMatch(Ship::isSunk))
 					break;
-				
-				if (!turnAction.wasHit) {
-					//switch players
-					Side temp = active;
-					active = other;
-					other = temp;
-				}
 			} catch (Throwable e) {
 				callback.onGameOver(side1 == active, GameCallback.GameOverReason.REASON_CRASH, e);
 				return;
 			}
+			
+			if (!turnAction.wasHit) {
+				//switch players
+				Side temp = active;
+				active = other;
+				other = temp;
+			}
 		}
 		
 		callback.onGameOver(side1 == active, GameCallback.GameOverReason.REASON_WIN, null);
-		active.player.gameOver(true);
-		other.player.gameOver(false);
+		try {
+			active.player.gameOver(true);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		try {
+			other.player.gameOver(false);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -87,13 +102,16 @@ public class Game {
 	public class Side {
 		
 		public final PlayerInfo playerInfo;
-		public final Player player;
-		public final ShipWorld ownWorld;
+		public Player player;
+		public ShipWorld ownWorld;
 		public final Grid2<Boolean> hitTiles = new Grid2<>(GameSettings.SIZE_OF_PLAYFIELD_VECTOR, Boolean.FALSE);
 		
-		public Side(GameSettings settings, PlayerInfo playerCreator, PlayerInfo other) {
+		public Side(PlayerInfo playerCreator) {
 			this.playerInfo = playerCreator;
-			this.player = playerCreator.creator.createPlayer(settings, other.creator.getClass());
+		}
+		
+		public void init(PlayerInfo other) {
+			this.player = playerInfo.creator.createPlayer(settings, other.creator.getClass());
 			
 			ShipWorld[] ownWorld = new ShipWorld[1];
 			player.placeShips(ships -> ownWorld[0] = ShipWorldImpl.create(settings, Arrays.copyOf(ships, ships.length)));
