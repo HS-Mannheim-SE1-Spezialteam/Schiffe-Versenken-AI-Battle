@@ -28,6 +28,7 @@ public class GameArea extends JFrame implements GameCallback{
 	public GameArea(int speed){
 		this.speed = speed;
 		creationThread = Thread.currentThread();
+		this.setResizable(false);
 		
 		this.setTitle("Schiffe Versenken - Playground");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
