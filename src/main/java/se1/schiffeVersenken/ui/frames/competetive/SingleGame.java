@@ -1,20 +1,11 @@
 package se1.schiffeVersenken.ui.frames.competetive;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 
-import javax.swing.JProgressBar;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
 import se1.schiffeVersenken.botBattle.PlayerInfo;
-
-import javax.swing.JSeparator;
-import javax.swing.BoxLayout;
-import java.awt.Component;
-import javax.swing.Box;
-import java.awt.Font;
-import java.awt.Dimension;
 
 public class SingleGame extends JPanel{
 	
@@ -24,6 +15,7 @@ public class SingleGame extends JPanel{
 	int pointsP1 = 0;
 	int pointsP2 = 0;
 	
+	private boolean isSwitched = false;
 	private int totalGames = 0;
 	
 	private PlayerInfo p1;
@@ -82,7 +74,10 @@ public class SingleGame extends JPanel{
 	}
 	
 	public boolean pointP1() {
-		this.pointsP1++;
+		if (isSwitched)
+			this.pointsP2++;
+		else
+			this.pointsP1++;
 		lblPoints.setText(String.format("%2d | %2d", pointsP1, pointsP2));
 		progressBar.setValue(progressBar.getValue() + 1);
 		
@@ -90,7 +85,10 @@ public class SingleGame extends JPanel{
 	}
 	
 	public boolean pointP2() {
-		this.pointsP2++;
+		if (isSwitched)
+			this.pointsP1++;
+		else
+			this.pointsP2++;
 		lblPoints.setText(String.format("%2d | %2d", pointsP1, pointsP2));
 		progressBar.setValue(progressBar.getValue() + 1);
 
@@ -98,6 +96,8 @@ public class SingleGame extends JPanel{
 	}
 	
 	public boolean endGame() {
+//		if(pointsP1+pointsP2 == totalGames/2)
+//			isSwitched = true;
 		boolean gameEnd = progressBar.getValue() == progressBar.getMaximum();
 		if(gameEnd) {
 			if(pointsP1 > pointsP2) {
@@ -115,11 +115,11 @@ public class SingleGame extends JPanel{
 	}
 
 	public PlayerInfo getP1() {
-		return p1;
+		return isSwitched ? p2 : p1;
 	}
 
 	public PlayerInfo getP2() {
-		return p2;
+		return isSwitched ? p1 : p2;
 	}
 	
 	
