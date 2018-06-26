@@ -71,7 +71,7 @@ public class Game implements Runnable {
 				if (Stream.of(other.ownWorld.getShips()).allMatch(Ship::isSunk))
 					break;
 			} catch (Throwable e) {
-				callback.onGameOver(side1 == active, GameCallback.GameOverReason.REASON_CRASH, e);
+				callback.onGameOver(side1 != active, GameCallback.GameOverReason.REASON_CRASH, e);
 				return;
 			}
 			

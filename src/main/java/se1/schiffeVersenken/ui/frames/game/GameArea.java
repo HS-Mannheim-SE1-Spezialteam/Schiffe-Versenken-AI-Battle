@@ -110,6 +110,9 @@ public class GameArea extends JFrame implements GameCallback{
 
 	@Override
 	public void onGameOver(boolean isSide1, GameOverReason gameOverReason, Throwable throwable) {
+		if (throwable != null)
+			throwable.printStackTrace();
+		
 		new WinnerScreen(isSide1 ? game.side1.playerInfo.name : game.side2.playerInfo.name).setVisible(true);
 	}
 }

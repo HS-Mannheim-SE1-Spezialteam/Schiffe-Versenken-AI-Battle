@@ -27,10 +27,14 @@ public class UIControll {
 		System.setOut(new PrintStream(new NullPrintStream()));
 		
 		setup = new GameSetup(new PlayerInfo[]{
-				new PlayerInfo(new se1.schiffeVersenken.ais.voidQuality.AICreator()),
-				new PlayerInfo(new se1.schiffeVersenken.ais.superSpezialTeam.playerCreator.MyPlayerCreator()),
+//				new PlayerInfo(new ReferenceShipPlacerWrapper(new se1.schiffeVersenken.ais.voidQuality.AICreator()), "void(Quality);"),
+//				new PlayerInfo(new ReferenceShipPlacerWrapper(new se1.schiffeVersenken.ais.superSpezialTeam.playerCreator.MyPlayerCreator()), "super.spezialTeam();*"),
+//				new PlayerInfo(new ReferencePlayerCreator()),
+//				new PlayerInfo(new ReferenceShipPlacerWrapper(new se1.schiffeVersenken.ais.PlayerNumber9.MyPlayerCreator()), "PlayerNumber9")
+				new PlayerInfo(new se1.schiffeVersenken.ais.voidQuality.AICreator(), "void(Quality);"),
+				new PlayerInfo(new se1.schiffeVersenken.ais.superSpezialTeam.playerCreator.MyPlayerCreator(), "super.spezialTeam();*"),
 				new PlayerInfo(new ReferencePlayerCreator()),
-				new PlayerInfo(new se1.schiffeVersenken.ais.PlayerNumber9.MyPlayerCreator())
+				new PlayerInfo(new se1.schiffeVersenken.ais.PlayerNumber9.MyPlayerCreator(), "PlayerNumber9")
 		});
 		setup.setVisible(true);
 	}
