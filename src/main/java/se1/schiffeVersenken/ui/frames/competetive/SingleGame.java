@@ -96,11 +96,7 @@ public class SingleGame extends JPanel{
 	}
 	
 	public boolean endGame() {
-<<<<<<< HEAD
-		if(pointsP1+pointsP2 == totalGames/2)
-=======
 		if (pointsP1 + pointsP2 == totalGames / 2)
->>>>>>> branch 'master' of https://github.com/HS-Mannheim-SE1-Spezialteam/Schiffe-Versenken-Bot-Battle.git
 			isSwitched = true;
 		boolean gameEnd = progressBar.getValue() == progressBar.getMaximum();
 		if(gameEnd) {
