@@ -5,7 +5,6 @@ import java.io.PrintStream;
 
 import javax.swing.JFrame;
 
-import se1.schiffeVersenken.ais.ReferenceAi.ReferencePlayerCreator;
 import se1.schiffeVersenken.botBattle.Game;
 import se1.schiffeVersenken.botBattle.PlayerInfo;
 import se1.schiffeVersenken.interfaces.GameSettings;
@@ -32,10 +31,11 @@ public class UIControll {
 //				new PlayerInfo(new ReferenceShipPlacerWrapper(new se1.schiffeVersenken.ais.superSpezialTeam.playerCreator.MyPlayerCreator()), "super.spezialTeam();*"),
 //				new PlayerInfo(new ReferencePlayerCreator()),
 //				new PlayerInfo(new ReferenceShipPlacerWrapper(new se1.schiffeVersenken.ais.PlayerNumber9.MyPlayerCreator()), "PlayerNumber9")
-				new PlayerInfo(new se1.schiffeVersenken.ais.voidQuality.AICreator(), "void(Quality);"),
-				new PlayerInfo(new se1.schiffeVersenken.ais.weDontGiveAShip.PlayerImpl(), "We don't give a Ship"),
-				new PlayerInfo(new se1.schiffeVersenken.ais.superSpezialTeam.playerCreator.MyPlayerCreator(), "super.spezialTeam();*"),
-				new PlayerInfo(new ReferencePlayerCreator()),
+//				new PlayerInfo(new se1.schiffeVersenken.ais.voidQuality.AICreator(), "void(Quality);"),
+//				new PlayerInfo(new se1.schiffeVersenken.ais.weDontGiveAShip.PlayerImpl(), "We don't give a Ship"),
+//				new PlayerInfo(new se1.schiffeVersenken.ais.superSpezialTeam.playerCreator.MyPlayerCreator(), "super.spezialTeam();*"),
+//				new PlayerInfo(new ReferencePlayerCreator()),
+				new PlayerInfo(new se1.schiffeVersenken.ais.PlayerNumber9.MyPlayerCreator(), "PlayerNumber9"),
 				new PlayerInfo(new se1.schiffeVersenken.ais.PlayerNumber9.MyPlayerCreator(), "PlayerNumber9")
 		});
 		setup.setVisible(true);
