@@ -96,8 +96,8 @@ public class SingleGame extends JPanel{
 	}
 	
 	public boolean endGame() {
-//		if(pointsP1+pointsP2 == totalGames/2)
-//			isSwitched = true;
+		if(pointsP1+pointsP2 == totalGames/2)
+			isSwitched = true;
 		boolean gameEnd = progressBar.getValue() == progressBar.getMaximum();
 		if(gameEnd) {
 			if(pointsP1 > pointsP2) {

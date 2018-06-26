@@ -24,6 +24,6 @@ public class MultipleGames extends JFrame{
 			
 		}
 		
-		this.setSize(new Dimension(600, games.length * 75));
+		this.setSize(new Dimension(600, games.length * 50));
 	}
 }
