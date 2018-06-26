@@ -35,10 +35,10 @@ public class UIControll {
 				new PlayerInfo(new se1.schiffeVersenken.ais.voidQuality.AICreator(), "void(Quality);"),				
 				new PlayerInfo(new se1.schiffeVersenken.ais.voidQualityNew.AICreator(), "new voidQuality();"),
 
-//				new PlayerInfo(new se1.schiffeVersenken.ais.weDontGiveAShip.PlayerImpl(), "We don't give a Ship"),
+				new PlayerInfo(new se1.schiffeVersenken.ais.weDontGiveAShip.PlayerImpl(), "We don't give a Ship"),
 				new PlayerInfo(new se1.schiffeVersenken.ais.superSpezialTeam.playerCreator.MyPlayerCreator(), "super.spezialTeam();"),
 				new PlayerInfo(new ReferencePlayerCreator()),
-//				new PlayerInfo(new se1.schiffeVersenken.ais.PlayerNumber9.MyPlayerCreator(), "PlayerNumber9")
+				new PlayerInfo(new se1.schiffeVersenken.ais.PlayerNumber9.MyPlayerCreator(), "PlayerNumber9")
 		});
 		setup.setVisible(true);
 	}
