@@ -13,7 +13,7 @@ public class CompetetiveController implements GameCallback{
 
 	private PlayerInfo[] playerInformations;
 	
-	private static int roundAmount = 1000;
+	private static int roundAmount = 200;
 	
 	public CompetetiveController (PlayerInfo[] info) {
 		playerInformations = info;
