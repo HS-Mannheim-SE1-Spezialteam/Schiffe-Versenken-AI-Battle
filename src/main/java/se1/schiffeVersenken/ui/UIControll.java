@@ -28,10 +28,12 @@ public class UIControll {
 		
 		setup = new GameSetup(new PlayerInfo[]{
 //				new PlayerInfo(new ReferenceShipPlacerWrapper(new se1.schiffeVersenken.ais.voidQuality.AICreator()), "void(Quality);"),
+//				new PlayerInfo(new ReferenceShipPlacerWrapper(new se1.schiffeVersenken.ais.weDontGiveAShip.PlayerImpl()), "We don't give a Ship"),
 //				new PlayerInfo(new ReferenceShipPlacerWrapper(new se1.schiffeVersenken.ais.superSpezialTeam.playerCreator.MyPlayerCreator()), "super.spezialTeam();*"),
 //				new PlayerInfo(new ReferencePlayerCreator()),
 //				new PlayerInfo(new ReferenceShipPlacerWrapper(new se1.schiffeVersenken.ais.PlayerNumber9.MyPlayerCreator()), "PlayerNumber9")
 				new PlayerInfo(new se1.schiffeVersenken.ais.voidQuality.AICreator(), "void(Quality);"),
+				new PlayerInfo(new se1.schiffeVersenken.ais.weDontGiveAShip.PlayerImpl(), "We don't give a Ship"),
 				new PlayerInfo(new se1.schiffeVersenken.ais.superSpezialTeam.playerCreator.MyPlayerCreator(), "super.spezialTeam();*"),
 				new PlayerInfo(new ReferencePlayerCreator()),
 				new PlayerInfo(new se1.schiffeVersenken.ais.PlayerNumber9.MyPlayerCreator(), "PlayerNumber9")
